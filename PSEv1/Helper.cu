@@ -51,7 +51,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Modified by Gang Wang
 // Modified by Andrew Fiore
 
-
 #include "Helper.cuh"
 
 #include "hoomd/TextureTools.h"
@@ -71,28 +70,27 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __scalar2int_rd __double2int_rd
 #endif
 
-
 /*! \file Helper.cu
-    	\brief Helper functions to perform additions, dot products, etc., for Mobility and Brownian
+		\brief Helper functions to perform additions, dot products, etc., for Mobility and Brownian
 */
 
 //! Shared memory array for partial sum of dot product kernel
 extern __shared__ Scalar partial_sum[];
 
 //! Zero out the force grid
-/*! 
+/*!
 	\param grid the grid going to be zero out
-   	\param NxNyNz dimension of the grid
+	\param NxNyNz dimension of the grid
 */
-__global__
-void gpu_stokes_ZeroGrid_kernel(cufftComplex *grid, unsigned int NxNyNz) {
+__global__ void gpu_stokes_ZeroGrid_kernel(cufftComplex *grid, unsigned int NxNyNz)
+{
 
 	unsigned int tid = blockDim.x * blockIdx.x + threadIdx.x;
-	
-	if ( tid < NxNyNz ) {
-	
-		grid[tid] = make_cuComplex( 0.0, 0.0 );  
-	
+
+	if (tid < NxNyNz)
+	{
+
+		grid[tid] = make_cuComplex(0.0, 0.0);
 	}
 }
 
@@ -111,17 +109,18 @@ void gpu_stokes_ZeroGrid_kernel(cufftComplex *grid, unsigned int NxNyNz) {
 	\param d_group_members  index into vectors
 */
 __global__ void gpu_stokes_LinearCombination_kernel(
-						Scalar4 *d_a,
-						Scalar4 *d_b,
-						Scalar4 *d_c,
-						Scalar coeff_a,
-						Scalar coeff_b,
-						unsigned int group_size,
-						unsigned int *d_group_members
-						){
+	Scalar4 *d_a,
+	Scalar4 *d_b,
+	Scalar4 *d_c,
+	Scalar coeff_a,
+	Scalar coeff_b,
+	unsigned int group_size,
+	unsigned int *d_group_members)
+{
 
 	int group_idx = blockDim.x * blockIdx.x + threadIdx.x;
-	if (group_idx < group_size) {
+	if (group_idx < group_size)
+	{
 		unsigned int idx = d_group_members[group_idx];
 		Scalar4 A4 = d_a[idx];
 		Scalar4 B4 = d_b[idx];
@@ -129,10 +128,10 @@ __global__ void gpu_stokes_LinearCombination_kernel(
 		Scalar3 B = make_scalar3(B4.x, B4.y, B4.z);
 		A = coeff_a * A + coeff_b * B;
 		d_c[idx] = make_scalar4(A.x, A.y, A.z, d_c[idx].w);
-		//printf("LinearCombination: \n");
-		//printf("A[%d] = (%f, %f, %f)\n", idx, A4.x, A4.y, A4.z);
-		//printf("B[%d] = (%f, %f, %f)\n", idx, B4.x, B4.y, B4.z);
-		//printf("C[%d] = (%f, %f, %f, %f)\n", idx, A.x, A.y, A.z, d_c[idx].w);
+		// printf("LinearCombination: \n");
+		// printf("A[%d] = (%f, %f, %f)\n", idx, A4.x, A4.y, A4.z);
+		// printf("B[%d] = (%f, %f, %f)\n", idx, B4.x, B4.y, B4.z);
+		// printf("C[%d] = (%f, %f, %f, %f)\n", idx, A.x, A.y, A.z, d_c[idx].w);
 	}
 }
 
@@ -140,25 +139,26 @@ __global__ void gpu_stokes_LinearCombination_kernel(
 	Dot product helper function: First step
 	d_a .* d_b -> d_c -> Partial sum
 	BlockDim of this kernel should be 2^n, which is 512. (Based on HOOMD ComputeThermoGPU class)
-	
+
 	\param d_a              first vector in dot product
 	\param d_b              second vector in dot product
 	\param dot_sum          partial dot product sum
 	\param group_size       length of vectors a and b
-        \param d_group_members  index into vectors
+		\param d_group_members  index into vectors
 */
 __global__ void gpu_stokes_DotStepOne_kernel(
-					Scalar4 *d_a, 
-					Scalar4 *d_b, 
-					Scalar *dot_sum, 
-					unsigned int group_size, 
-					unsigned int *d_group_members
-					){
+	Scalar4 *d_a,
+	Scalar4 *d_b,
+	Scalar *dot_sum,
+	unsigned int group_size,
+	unsigned int *d_group_members)
+{
 
 	int group_idx = blockDim.x * blockIdx.x + threadIdx.x;
 	Scalar temp;
 
-	if (group_idx < group_size) {
+	if (group_idx < group_size)
+	{
 
 		unsigned int idx = d_group_members[group_idx];
 		Scalar4 a4 = d_a[idx];
@@ -166,14 +166,14 @@ __global__ void gpu_stokes_DotStepOne_kernel(
 		Scalar3 a = make_scalar3(a4.x, a4.y, a4.z);
 		Scalar3 b = make_scalar3(b4.x, b4.y, b4.z);
 
-		temp = dot(a,b); // Partial sum, each thread, shared memory
-		//printf("DotStepOne: \n");
-		//printf("a[%d] = (%f, %f, %f)\n", idx, a.x, a.y, a.z);
-		//printf("b[%d] = (%f, %f, %f)\n", idx, b.x, b.y, b.z);
-		//printf("temp = %f \n", temp);
-
+		temp = dot(a, b); // Partial sum, each thread, shared memory
+						  // printf("DotStepOne: \n");
+						  // printf("a[%d] = (%f, %f, %f)\n", idx, a.x, a.y, a.z);
+						  // printf("b[%d] = (%f, %f, %f)\n", idx, b.x, b.y, b.z);
+						  // printf("temp = %f \n", temp);
 	}
-	else {
+	else
+	{
 		temp = 0;
 	}
 
@@ -184,23 +184,22 @@ __global__ void gpu_stokes_DotStepOne_kernel(
 	int offs = blockDim.x >> 1;
 
 	while (offs > 0)
-        {
-        	if (threadIdx.x < offs)
-            	{
-            		partial_sum[threadIdx.x] += partial_sum[threadIdx.x + offs];
-					//printf("Thread %d: partial_sum[%d] = %f \n", threadIdx.x, threadIdx.x + offs, partial_sum[threadIdx.x + offs]);
-            	}
-        	offs >>= 1;
-        	__syncthreads();
-        }
+	{
+		if (threadIdx.x < offs)
+		{
+			partial_sum[threadIdx.x] += partial_sum[threadIdx.x + offs];
+			// printf("Thread %d: partial_sum[%d] = %f \n", threadIdx.x, threadIdx.x + offs, partial_sum[threadIdx.x + offs]);
+		}
+		offs >>= 1;
+		__syncthreads();
+	}
 
-	if (threadIdx.x == 0){
+	if (threadIdx.x == 0)
+	{
 		dot_sum[blockIdx.x] = partial_sum[0];
-		//printf("Block %d: dot_sum[%d] = %f\n", blockIdx.x, blockIdx.x, dot_sum[blockIdx.x]);
+		// printf("Block %d: dot_sum[%d] = %f\n", blockIdx.x, blockIdx.x, dot_sum[blockIdx.x]);
 	}
 }
-
-
 
 /*!
 	Dot product helper function: Second step
@@ -212,41 +211,38 @@ __global__ void gpu_stokes_DotStepOne_kernel(
 
 */
 __global__ void gpu_stokes_DotStepTwo_kernel(
-					Scalar *dot_sum, 
-					unsigned int num_partial_sums
-					){
+	Scalar *dot_sum,
+	unsigned int num_partial_sums)
+{
 
 	partial_sum[threadIdx.x] = 0.0;
 	__syncthreads();
 	for (unsigned int start = 0; start < num_partial_sums; start += blockDim.x)
-       	{
-        	if (start + threadIdx.x < num_partial_sums)
-            	{
-            		partial_sum[threadIdx.x] += dot_sum[start + threadIdx.x];
-					//printf("Thread %d: dot_sum[%d] = %f\n", threadIdx.x, start + threadIdx.x, dot_sum[start + threadIdx.x]);
-            	}
+	{
+		if (start + threadIdx.x < num_partial_sums)
+		{
+			partial_sum[threadIdx.x] += dot_sum[start + threadIdx.x];
+			// printf("Thread %d: dot_sum[%d] = %f\n", threadIdx.x, start + threadIdx.x, dot_sum[start + threadIdx.x]);
+		}
 	}
 
 	int offs = blockDim.x >> 1;
 	while (offs > 0)
-       	{
-		__syncthreads();
-            	if (threadIdx.x < offs)
-                {
-                	partial_sum[threadIdx.x] += partial_sum[threadIdx.x + offs];
-                }
-            	offs >>= 1;
-            	
-        }
-	__syncthreads();
-        if (threadIdx.x == 0)
 	{
-            	dot_sum[0] = partial_sum[0]; // Save the dot product to the first element of dot_sum array
-				//printf("dot_sum[0]: %d \n", dot_sum[0]);
+		__syncthreads();
+		if (threadIdx.x < offs)
+		{
+			partial_sum[threadIdx.x] += partial_sum[threadIdx.x + offs];
+		}
+		offs >>= 1;
 	}
-
+	__syncthreads();
+	if (threadIdx.x == 0)
+	{
+		dot_sum[0] = partial_sum[0]; // Save the dot product to the first element of dot_sum array
+									 // printf("dot_sum[0]: %d \n", dot_sum[0]);
+	}
 }
-
 
 /*!
 
@@ -261,89 +257,88 @@ __global__ void gpu_stokes_DotStepTwo_kernel(
 */
 
 __global__ void gpu_stokes_MatVecMultiply_kernel(
-						Scalar4 *d_A, 
-						Scalar *d_x, 
-						Scalar4 *d_b, 
-						const unsigned int N_total,
-						unsigned int group_size, 
-						unsigned int *d_group_members,
-						int m
-						){
+	Scalar4 *d_A,
+	Scalar *d_x,
+	Scalar4 *d_b,
+	const unsigned int N_total,
+	unsigned int group_size,
+	unsigned int *d_group_members,
+	int m)
+{
 
 	int group_idx = blockDim.x * blockIdx.x + threadIdx.x;
-	if (group_idx < group_size) {
+	if (group_idx < group_size)
+	{
 
 		unsigned int idx = d_group_members[group_idx];
-		Scalar3 tempprod = make_scalar3( 0.0, 0.0, 0.0 );
+		Scalar3 tempprod = make_scalar3(0.0, 0.0, 0.0);
 
-		for ( int ii = 0; ii < m; ++ii ){
+		for (int ii = 0; ii < m; ++ii)
+		{
 
-		    Scalar4 matidx = d_A[ idx + ii*N_total ];
+			Scalar4 matidx = d_A[idx + ii * N_total];
 
-		    Scalar xcurr = d_x[ii];
+			Scalar xcurr = d_x[ii];
 
-		    tempprod.x = tempprod.x + matidx.x * xcurr;
-		    tempprod.y = tempprod.y + matidx.y * xcurr;
-		    tempprod.z = tempprod.z + matidx.z * xcurr;
-
+			tempprod.x = tempprod.x + matidx.x * xcurr;
+			tempprod.y = tempprod.y + matidx.y * xcurr;
+			tempprod.z = tempprod.z + matidx.z * xcurr;
 		}
 
-		d_b[idx] = make_scalar4( tempprod.x, tempprod.y, tempprod.z, d_A[idx].w );
-
+		d_b[idx] = make_scalar4(tempprod.x, tempprod.y, tempprod.z, d_A[idx].w);
 	}
 }
 
 /*!
   Kernel function to calculate position of each grid in reciprocal space: gridk
   */
-__global__
-void gpu_stokes_SetGridk_kernel(
-				Scalar4 *gridk,
-                                int Nx,
-                                int Ny,
-                                int Nz,
-                                unsigned int NxNyNz,
-                                BoxDim box,
-                                Scalar xi,
-				Scalar eta
-				){
+__global__ void gpu_stokes_SetGridk_kernel(
+	Scalar4 *gridk,
+	int Nx,
+	int Ny,
+	int Nz,
+	unsigned int NxNyNz,
+	BoxDim box,
+	Scalar xi,
+	Scalar eta)
+{
 
-        int tid = blockDim.x * blockIdx.x + threadIdx.x;
+	int tid = blockDim.x * blockIdx.x + threadIdx.x;
 
-        if ( tid < NxNyNz ) {
+	if (tid < NxNyNz)
+	{
 
-                int i = tid / (Ny*Nz);
-                int j = (tid - i * Ny * Nz) / Nz;
-                int k = tid % Nz;
+		int i = tid / (Ny * Nz);
+		int j = (tid - i * Ny * Nz) / Nz;
+		int k = tid % Nz;
 
-                Scalar3 L = box.getL();
-                Scalar xy = box.getTiltFactorXY();
-                Scalar4 gridk_value;
+		Scalar3 L = box.getL();
+		Scalar xy = box.getTiltFactorXY();
+		Scalar4 gridk_value;
 
-                gridk_value.x = (i < (Nx+1) / 2) ? i : i - Nx;
-                gridk_value.y = ( ((j < (Ny+1) / 2) ? j : j - Ny) - xy * gridk_value.x * L.y / L.x ) / L.y; // Fixed by Zsigi 2015
-                gridk_value.x = gridk_value.x / L.x;
-                gridk_value.z = ((k < (Nz+1) / 2) ? k : k - Nz) / L.z;
+		gridk_value.x = (i < (Nx + 1) / 2) ? i : i - Nx;
+		gridk_value.y = (((j < (Ny + 1) / 2) ? j : j - Ny) - xy * gridk_value.x * L.y / L.x) / L.y; // Fixed by Zsigi 2015
+		gridk_value.x = gridk_value.x / L.x;
+		gridk_value.z = ((k < (Nz + 1) / 2) ? k : k - Nz) / L.z;
 
-		gridk_value.x *= 2.0*3.1416926536;
-		gridk_value.y *= 2.0*3.1416926536;
-		gridk_value.z *= 2.0*3.1416926536;
+		gridk_value.x *= 2.0 * 3.1416926536;
+		gridk_value.y *= 2.0 * 3.1416926536;
+		gridk_value.z *= 2.0 * 3.1416926536;
 
-                Scalar k2 = gridk_value.x*gridk_value.x + gridk_value.y*gridk_value.y + gridk_value.z*gridk_value.z;
+		Scalar k2 = gridk_value.x * gridk_value.x + gridk_value.y * gridk_value.y + gridk_value.z * gridk_value.z;
 		Scalar xisq = xi * xi;
 
 		// Scaling factor used in wave space sum
-		if (i == 0 && j == 0 && k == 0){
+		if (i == 0 && j == 0 && k == 0)
+		{
 			gridk_value.w = 0.0;
 		}
-		else{
+		else
+		{
 			// Have to divide by Nx*Ny*Nz to normalize the FFTs
-			gridk_value.w = 6.0*3.1415926536 * (1.0 + k2/4.0/xisq) * expf( -(1-eta) * k2/4.0/xisq ) / ( k2 ) / Scalar( Nx*Ny*Nz );
+			gridk_value.w = 6.0 * 3.1415926536 * (1.0 + k2 / 4.0 / xisq) * expf(-(1 - eta) * k2 / 4.0 / xisq) / (k2) / Scalar(Nx * Ny * Nz);
 		}
 
-                gridk[tid] = gridk_value;
-
-        }
+		gridk[tid] = gridk_value;
+	}
 }
-
-

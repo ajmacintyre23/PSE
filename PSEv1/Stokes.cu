@@ -51,7 +51,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Modified by Gang Wang
 // Modified by Andrew Fiore
 
-
 #include "Stokes.cuh"
 #include "Mobility.cuh"
 #include "Brownian.cuh"
@@ -81,27 +80,30 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __ERRCHK_CUH__
 #define __ERRCHK_CUH__
 //! Function to check for errors
-#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
+#define gpuErrchk(ans)                        \
+	{                                         \
+		gpuAssert((ans), __FILE__, __LINE__); \
+	}
 /*!
-    \param code   returned error code
-    \param file   which file the error occured in
-    \param line   which line error check was tripped
-    \param abort  whether to kill code upon error trigger
+	\param code   returned error code
+	\param file   which file the error occured in
+	\param line   which line error check was tripped
+	\param abort  whether to kill code upon error trigger
 */
-inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort = true)
 {
-   if (code != cudaSuccess) 
-   {
-      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-      if (abort) exit(code);
-   }
+	if (code != cudaSuccess)
+	{
+		fprintf(stderr, "GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+		if (abort)
+			exit(code);
+	}
 }
 #endif
 
 /*! \file Stokes.cu
-    \brief Defines GPU kernel code for integration considering hydrodynamic interactions on the GPU. Used by Stokes.cc.
+	\brief Defines GPU kernel code for integration considering hydrodynamic interactions on the GPU. Used by Stokes.cc.
 */
-
 
 //! Shared memory array for partial sum of dot product kernel
 extern __shared__ Scalar partial_sum[];
@@ -109,105 +111,106 @@ extern __shared__ Scalar4 shared_Fpos[];
 
 //! Takes the integration on a group of particles
 /*! \param d_pos            array of particle positions
-    \param d_vel            array of particle velocities
-    \param d_delu1          first 4 components of gradient of particle velocity
-    \param d_delu2          second 4 components of gradient of particle velocity
-    \param d_accel          array of particle "accelerations" (This is an overdamped integrator, so accelerations don't have physical meaning)
-    \param d_image          array of particle images
-    \param d_group_members  Device array listing the indicies of the mebers of the group to integrate
-    \param group_size       Number of members in the group
-    \param box Box          dimensions for periodic boundary condition handling
-    \param deltaT           timestep
-    \param d_net_force      net force on each particle, only used to set "accelerations"
+	\param d_vel            array of particle velocities
+	\param d_delu1          first 4 components of gradient of particle velocity
+	\param d_delu2          second 4 components of gradient of particle velocity
+	\param d_accel          array of particle "accelerations" (This is an overdamped integrator, so accelerations don't have physical meaning)
+	\param d_image          array of particle images
+	\param d_group_members  Device array listing the indicies of the mebers of the group to integrate
+	\param group_size       Number of members in the group
+	\param box Box          dimensions for periodic boundary condition handling
+	\param deltaT           timestep
+	\param d_net_force      net force on each particle, only used to set "accelerations"
 
-    This kernel must be executed with a 1D grid of any block size such that the number of threads is greater than or
-    equal to the number of members in the group. The kernel's implementation simply reads one particle in each thread
-    and updates that particle. (Not necessary true for Stokesian Dynamics simulation)
+	This kernel must be executed with a 1D grid of any block size such that the number of threads is greater than or
+	equal to the number of members in the group. The kernel's implementation simply reads one particle in each thread
+	and updates that particle. (Not necessary true for Stokesian Dynamics simulation)
 
-    <b>Performance notes:</b>
-    Particle properties are read via the texture cache to optimize the bandwidth obtained with sparse groups. The writes
-    in sparse groups will not be coalesced. However, because ParticleGroup sorts the index list the writes will be as
-    contiguous as possible leading to fewer memory transactions on compute 1.3 hardware and more cache hits on Fermi. (Not sure about this..)
+	<b>Performance notes:</b>
+	Particle properties are read via the texture cache to optimize the bandwidth obtained with sparse groups. The writes
+	in sparse groups will not be coalesced. However, because ParticleGroup sorts the index list the writes will be as
+	contiguous as possible leading to fewer memory transactions on compute 1.3 hardware and more cache hits on Fermi. (Not sure about this..)
 */
-extern "C" __global__
-void gpu_stokes_step_one_kernel(
-				Scalar4 *d_pos,
-				Scalar4 *d_vel,
-				Scalar3 *d_accel,
-				int3 *d_image,
-				unsigned int *d_group_members,
-				unsigned int group_size,
-				BoxDim box,
-				Scalar deltaT,
-				Scalar4 *d_net_force,
-				Scalar shear_rate
-				){
+extern "C" __global__ void gpu_stokes_step_one_kernel(
+	Scalar4 *d_pos,
+	Scalar4 *d_vel,
+	Scalar3 *d_accel,
+	int3 *d_image,
+	unsigned int *d_group_members,
+	unsigned int group_size,
+	BoxDim box,
+	Scalar deltaT,
+	Scalar4 *d_net_force,
+	Scalar shear_rate)
+{
 
-    // determine which particle this thread works on (MEM TRANSFER: 4 bytes)
-    int group_idx = blockIdx.x * blockDim.x + threadIdx.x;
+	// determine which particle this thread works on (MEM TRANSFER: 4 bytes)
+	int group_idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (group_idx < group_size){
+	if (group_idx < group_size)
+	{
 
-        unsigned int idx = d_group_members[group_idx];
+		unsigned int idx = d_group_members[group_idx];
 
-        // read the particle's posision (MEM TRANSFER: 16 bytes)
-        Scalar4 postype = d_pos[idx];
-        Scalar3 pos = make_scalar3(postype.x, postype.y, postype.z);
+		// read the particle's posision (MEM TRANSFER: 16 bytes)
+		Scalar4 postype = d_pos[idx];
+		Scalar3 pos = make_scalar3(postype.x, postype.y, postype.z);
 
 		// Print the "particle index" = idx, the "group index" = group_idx,
-        // and the position from 'pos'
-        //printf("GPU: Before: Particle Global Index %u, Group Index %d, Position: (%.3f, %.3f, %.3f), Type: %d , Groupsize: %u \n", 
-        //       d_group_members[group_idx], group_idx, pos.x, pos.y, pos.z, (int) postype.w, group_size);
+		// and the position from 'pos'
+		// printf("GPU: Before: Particle Global Index %u, Group Index %d, Position: (%.3f, %.3f, %.3f), Type: %d , Groupsize: %u \n",
+		//       d_group_members[group_idx], group_idx, pos.x, pos.y, pos.z, (int) postype.w, group_size);
 
-        // read the particle's velocity and acceleration (MEM TRANSFER: 32 bytes)
-        Scalar4 velmass = d_vel[idx];
+		// read the particle's velocity and acceleration (MEM TRANSFER: 32 bytes)
+		Scalar4 velmass = d_vel[idx];
 		Scalar mass = velmass.w;
-        Scalar3 vel = make_scalar3(velmass.x, velmass.y, velmass.z);
-		//printf("stokes_step_one: d_vel[idx=%d] = (%f, %f, %f, %f) \n", idx, velmass.x, velmass.y, velmass.z, velmass.w);
+		Scalar3 vel = make_scalar3(velmass.x, velmass.y, velmass.z);
+		// printf("stokes_step_one: d_vel[idx=%d] = (%f, %f, %f, %f) \n", idx, velmass.x, velmass.y, velmass.z, velmass.w);
 
-	// Add the shear
-        vel.x += shear_rate * pos.y;
+		// Add the shear
+		vel.x += shear_rate * pos.y;
 
 		Scalar4 net_force = d_net_force[idx];
-        Scalar3 accel = make_scalar3(net_force.x, net_force.y, net_force.z);
-		//printf("stokes_step_one: d_net_force[idx=%d] = (%f, %f, %f, %f) \n", idx, net_force.x, net_force.y, net_force.z, net_force.w);
+		Scalar3 accel = make_scalar3(net_force.x, net_force.y, net_force.z);
+		// printf("stokes_step_one: d_net_force[idx=%d] = (%f, %f, %f, %f) \n", idx, net_force.x, net_force.y, net_force.z, net_force.w);
 
-        // update the position
-        Scalar3 dx = vel * deltaT;
+		// update the position
+		Scalar3 dx = vel * deltaT;
 
-        // FLOPS: 3
-        pos += dx;
+		// FLOPS: 3
+		pos += dx;
 
-		accel = accel/mass;
+		accel = accel / mass;
 
-        // read in the particle's image (MEM TRANSFER: 16 bytes)
-        int3 image = d_image[idx];
+		// read in the particle's image (MEM TRANSFER: 16 bytes)
+		int3 image = d_image[idx];
 
-        // fix the periodic boundary conditions (FLOPS: 15)
-        box.wrap(pos, image);
+		// fix the periodic boundary conditions (FLOPS: 15)
+		box.wrap(pos, image);
 
-        // write out the results (MEM_TRANSFER: 48 bytes)
+		// write out the results (MEM_TRANSFER: 48 bytes)
 		d_accel[idx] = accel;
-        d_pos[idx] = make_scalar4(pos.x, pos.y, pos.z, postype.w);
-        d_image[idx] = image;
-		//printf("stokes_step_one: d_accel[idx=%d] = (%f, %f, %f) \n", idx, d_accel[idx].x, d_accel[idx].y, d_accel[idx].z);
+		d_pos[idx] = make_scalar4(pos.x, pos.y, pos.z, postype.w);
+		d_image[idx] = image;
+		// printf("stokes_step_one: d_accel[idx=%d] = (%f, %f, %f) \n", idx, d_accel[idx].x, d_accel[idx].y, d_accel[idx].z);
 
-	// Print the "particle index" = idx, the "group index" = group_idx,
-        // and the position from 'pos'
-        //printf("GPU: After: Particle Global Index %u, Group Index %d, Position: (%.3f, %.3f, %.3f), Type: %d , groupsize: %d\n", 
-        //       d_group_members[group_idx], group_idx, pos.x, pos.y, pos.z, (int) postype.w, group_size);
-        }
-    }
+		// Print the "particle index" = idx, the "group index" = group_idx,
+		// and the position from 'pos'
+		// printf("GPU: After: Particle Global Index %u, Group Index %d, Position: (%.3f, %.3f, %.3f), Type: %d , groupsize: %d\n",
+		//       d_group_members[group_idx], group_idx, pos.x, pos.y, pos.z, (int) postype.w, group_size);
+	}
+}
 
 // Initialize the active group membership/index list
-__global__ void initialize_groupmembership( int *d_group_membership, // particle membership and active group index list
-											unsigned int N_total) // total number of particles
+__global__ void initialize_groupmembership(int *d_group_membership, // particle membership and active group index list
+										   unsigned int N_total)	// total number of particles
 {
 	// Global particle index
-	unsigned int idx = threadIdx.x + blockIdx.x*blockDim.x;
+	unsigned int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
 	// Flag every particle as not a member of the active group of interest
-	if (idx < N_total) {
+	if (idx < N_total)
+	{
 		d_group_membership[idx] = -1;
 	}
 }
@@ -216,14 +219,15 @@ __global__ void initialize_groupmembership( int *d_group_membership, // particle
 // A particle with global index i that is not a member of the active group has d_group_membership[i] = -1.
 // A particle with global index i that is a member of the active group has its active group-specific index in d_group_membership[i].
 // That is, d_group_members[d_group_membership[i]] = i.
-__global__ void groupmembership( int *d_group_membership, // particle membership and group index list
-								 unsigned int *d_group_members, // group members
-								 unsigned int group_size) //number of particles belonging to the group of interest
+__global__ void groupmembership(int *d_group_membership,	   // particle membership and group index list
+								unsigned int *d_group_members, // group members
+								unsigned int group_size)	   // number of particles belonging to the group of interest
 {
 	// Group-specific particle index
-	unsigned int group_idx = threadIdx.x + blockIdx.x*blockDim.x;
+	unsigned int group_idx = threadIdx.x + blockIdx.x * blockDim.x;
 
-	if (group_idx < group_size) {
+	if (group_idx < group_size)
+	{
 
 		// Global particle index
 		unsigned int idx = d_group_members[group_idx];
@@ -234,173 +238,172 @@ __global__ void groupmembership( int *d_group_membership, // particle membership
 }
 
 /*! \param d_pos              array of particle positions
-    \param d_vel              array of particle velocities
-    \param d_accel            array of particle accelerations
-    \param d_image            array of particle images
+	\param d_vel              array of particle velocities
+	\param d_accel            array of particle accelerations
+	\param d_image            array of particle images
 	\param d_group_memberships
-    \param d_group_members    Device array listing the indicies of the mebers of the group to integrate
-    \param group_size         Number of members in the group ( i.e. number of particles to consider )
-    \param box                Box dimensions for periodic boundary condition handling
-    \param dt                 timestep
-    \param block_size         optimum block size returned by an autotuner
-    \param d_net_force        net force on the particles
-    \param T                  temperature
-    \param timestep           time step
-    \param seed               seed for random number generation
-    \param xi                 splitting coefficient for Ewald summation
-    \param eta                Spectral splitting parameter
-    \param P                  number of nodes in support of each gaussian for k-space sum
-    \param ewald_cut          cut off radius for Ewald summation
-    \param ewald_dr           discretization of look up tables
-    \param ewald_n            number of elements in look up tables
-    \param d_ewaldC           Ewald coefficients for real space sum
-    \param d_gridk            reciprocal lattice vectors and parameters for Ewald reciprocal space sum
-    \param d_gridX            x-component of force moment projection onto the grid
-    \param d_gridY            y-component of force moment projection onto the grid
-    \param d_gridZ            z-component of force moment projection onto the grid
-    \param plan cudaFFT       plan
-    \param Nx 		      number of grid nodes in the x-direction
-    \param Ny                 number of grid nodes in the y-direction
-    \param Nz                 number of grid nodes in the z-direction
-    \param d_n_neigh          Number of neighbors for every particle
-    \param d_nlist            Neighbor list of every particle, 2D array, can be accessed by nli
-    \param nli                Index lookup helper for d_nlist
-    \param cheb_an            Chebychev coefficients
-    \param n_cheb             Order of Chebyshev approximation
-    \param N_total            total number of particles ( should be same as group_size )
-    \param gridh              Spacing between grid ndoes
-    \param cheb_recompute     whether to recompute chebyshev approximation
-    \param eig_recompute      whether to recompute eigenvalues of matrix approximation
-    \param stored_eigenvalue  previous max eigenvalue
-    \param cheb_error         error tolerance in chebyshev approximation
+	\param d_group_members    Device array listing the indicies of the mebers of the group to integrate
+	\param group_size         Number of members in the group ( i.e. number of particles to consider )
+	\param box                Box dimensions for periodic boundary condition handling
+	\param dt                 timestep
+	\param block_size         optimum block size returned by an autotuner
+	\param d_net_force        net force on the particles
+	\param T                  temperature
+	\param timestep           time step
+	\param seed               seed for random number generation
+	\param xi                 splitting coefficient for Ewald summation
+	\param eta                Spectral splitting parameter
+	\param P                  number of nodes in support of each gaussian for k-space sum
+	\param ewald_cut          cut off radius for Ewald summation
+	\param ewald_dr           discretization of look up tables
+	\param ewald_n            number of elements in look up tables
+	\param d_ewaldC           Ewald coefficients for real space sum
+	\param d_gridk            reciprocal lattice vectors and parameters for Ewald reciprocal space sum
+	\param d_gridX            x-component of force moment projection onto the grid
+	\param d_gridY            y-component of force moment projection onto the grid
+	\param d_gridZ            z-component of force moment projection onto the grid
+	\param plan cudaFFT       plan
+	\param Nx 		      number of grid nodes in the x-direction
+	\param Ny                 number of grid nodes in the y-direction
+	\param Nz                 number of grid nodes in the z-direction
+	\param d_n_neigh          Number of neighbors for every particle
+	\param d_nlist            Neighbor list of every particle, 2D array, can be accessed by nli
+	\param nli                Index lookup helper for d_nlist
+	\param cheb_an            Chebychev coefficients
+	\param n_cheb             Order of Chebyshev approximation
+	\param N_total            total number of particles ( should be same as group_size )
+	\param gridh              Spacing between grid ndoes
+	\param cheb_recompute     whether to recompute chebyshev approximation
+	\param eig_recompute      whether to recompute eigenvalues of matrix approximation
+	\param stored_eigenvalue  previous max eigenvalue
+	\param cheb_error         error tolerance in chebyshev approximation
 */
 cudaError_t gpu_stokes_step_one(
-				Scalar4 *d_pos,
-				Scalar4 *d_vel,
-				Scalar3 *d_accel,
-				int3 *d_image,
-				unsigned int *d_group_members,
-				int *d_group_membership, // particle membership and index in active group
-				unsigned int group_size,
-				const BoxDim& box,
-				Scalar dt,
-				unsigned int block_size,
-				Scalar4 *d_net_force,
-				const Scalar T,
-				const unsigned int timestep,
-				const unsigned int seed,
-				Scalar xi,
-				Scalar eta,
-				Scalar ewald_cut,
-				Scalar ewald_dr,
-				int ewald_n,
-				Scalar4 *d_ewaldC1, 
-				Scalar self,
-				Scalar4 *d_gridk,
-				cufftComplex *d_gridX,
-				cufftComplex *d_gridY,
-				cufftComplex *d_gridZ,
-				cufftHandle plan,
-				const int Nx,
-				const int Ny,
-				const int Nz,
-				const unsigned int *d_n_neigh,
-				const unsigned int *d_nlist,
-				const unsigned int *d_headlist,
-				int& m_Lanczos,
-				const unsigned int N_total,
-				const int P,
-				Scalar3 gridh,
-				Scalar cheb_error,
-				Scalar shear_rate
-				){
+	Scalar4 *d_pos,
+	Scalar4 *d_vel,
+	Scalar3 *d_accel,
+	int3 *d_image,
+	unsigned int *d_group_members,
+	int *d_group_membership, // particle membership and index in active group
+	unsigned int group_size,
+	const BoxDim &box,
+	Scalar dt,
+	unsigned int block_size,
+	Scalar4 *d_net_force,
+	const Scalar T,
+	const unsigned int timestep,
+	const unsigned int seed,
+	Scalar xi,
+	Scalar eta,
+	Scalar ewald_cut,
+	Scalar ewald_dr,
+	int ewald_n,
+	Scalar4 *d_ewaldC1,
+	Scalar *d_self, // MODIFIED
+	Scalar *d_diam, // ADDED
+	int n_types,	// ADDED
+	Scalar4 *d_gridk,
+	cufftComplex *d_gridX,
+	cufftComplex *d_gridY,
+	cufftComplex *d_gridZ,
+	cufftHandle plan,
+	const int Nx,
+	const int Ny,
+	const int Nz,
+	const unsigned int *d_n_neigh,
+	const unsigned int *d_nlist,
+	const unsigned int *d_headlist,
+	int &m_Lanczos,
+	const unsigned int N_total,
+	const int P,
+	Scalar3 gridh,
+	Scalar cheb_error,
+	Scalar shear_rate)
+{
 
 	// Total number of grid points
-	unsigned int NxNyNz = Nx*Ny*Nz;
+	unsigned int NxNyNz = Nx * Ny * Nz;
 
 	// setup the grid to run the kernel
 	// block for particle calculation
-	dim3 grid( (group_size/block_size) + 1, 1, 1);
+	dim3 grid((group_size / block_size) + 1, 1, 1);
 	dim3 threads(block_size, 1, 1);
-	dim3 gridMembership((N_total/block_size) + 1 , 1, 1); // for initializing group membership, use one thread per total particle
+	dim3 gridMembership((N_total / block_size) + 1, 1, 1); // for initializing group membership, use one thread per total particle
 
 	// block for grid calculation
-	int gridBlockSize = ( NxNyNz > block_size ) ? block_size : NxNyNz;
-	int gridNBlock = ( NxNyNz + gridBlockSize - 1 ) / gridBlockSize ; 
+	int gridBlockSize = (NxNyNz > block_size) ? block_size : NxNyNz;
+	int gridNBlock = (NxNyNz + gridBlockSize - 1) / gridBlockSize;
 
 	// Update the group membership list
-	initialize_groupmembership<<<gridMembership,threads>>>(d_group_membership, N_total); // one thread per total particle
-	groupmembership<<<grid,threads>>>(d_group_membership, d_group_members, group_size);
+	initialize_groupmembership<<<gridMembership, threads>>>(d_group_membership, N_total); // one thread per total particle
+	groupmembership<<<grid, threads>>>(d_group_membership, d_group_members, group_size);
 
 	// Reset the grid (remove any previously distributed forces)
-	gpu_stokes_ZeroGrid_kernel<<<gridNBlock,gridBlockSize>>>(d_gridX,NxNyNz);
-	gpu_stokes_ZeroGrid_kernel<<<gridNBlock,gridBlockSize>>>(d_gridY,NxNyNz);
-	gpu_stokes_ZeroGrid_kernel<<<gridNBlock,gridBlockSize>>>(d_gridZ,NxNyNz);
+	gpu_stokes_ZeroGrid_kernel<<<gridNBlock, gridBlockSize>>>(d_gridX, NxNyNz);
+	gpu_stokes_ZeroGrid_kernel<<<gridNBlock, gridBlockSize>>>(d_gridY, NxNyNz);
+	gpu_stokes_ZeroGrid_kernel<<<gridNBlock, gridBlockSize>>>(d_gridZ, NxNyNz);
 
 	// Get sheared grid vectors
-    gpu_stokes_SetGridk_kernel<<<gridNBlock,gridBlockSize>>>(d_gridk,Nx,Ny,Nz,NxNyNz,box,xi,eta);
+	gpu_stokes_SetGridk_kernel<<<gridNBlock, gridBlockSize>>>(d_gridk, Nx, Ny, Nz, NxNyNz, box, xi, eta);
 
 	// Do Mobility and Brownian Calculations (compute the velocity from the forces)
-	gpu_stokes_CombinedMobilityBrownian_wrap(  	
-							d_pos,
-							d_net_force,
-                                			d_group_members,
-											d_group_membership,
-                                			group_size,
-                                			box,
-                                			dt,
-			        			d_vel, // output
-			        			T,
-			        			timestep,
-			        			seed,
-			        			xi,
-							eta,
-							P,
-			        			ewald_cut,
-			        			ewald_dr,
-			        			ewald_n,
-			        			d_ewaldC1, 
-			        			d_gridk,
-			        			d_gridX,
-			        			d_gridY,
-			        			d_gridZ,
-			        			plan,
-			        			Nx,
-			        			Ny,
-			        			Nz,
-			        			d_n_neigh,
-                                			d_nlist,
-                                			d_headlist,
-			        			m_Lanczos,
-			        			N_total,
-			        			NxNyNz,
-			        			grid,
-			        			threads,
-			        			gridBlockSize,
-			        			gridNBlock,
-							gridh,
-			        			cheb_error,
-							self );
-
+	gpu_stokes_CombinedMobilityBrownian_wrap(
+		d_pos,
+		d_net_force,
+		d_group_members,
+		d_group_membership,
+		group_size,
+		box,
+		dt,
+		d_vel, // output
+		T,
+		timestep,
+		seed,
+		xi,
+		eta,
+		P,
+		ewald_cut,
+		ewald_dr,
+		ewald_n,
+		d_ewaldC1,
+		d_gridk,
+		d_gridX,
+		d_gridY,
+		d_gridZ,
+		plan,
+		Nx,
+		Ny,
+		Nz,
+		d_n_neigh,
+		d_nlist,
+		d_headlist,
+		m_Lanczos,
+		N_total,
+		NxNyNz,
+		grid,
+		threads,
+		gridBlockSize,
+		gridNBlock,
+		gridh,
+		cheb_error,
+		d_self, d_diam, n_types); // Added
 
 	// Use forward Euler integration to move the particles according the velocity
 	// computed from the Mobility and Brownian calculations
-	gpu_stokes_step_one_kernel<<< grid, threads >>>(
-							d_pos, 
-							d_vel, 
-							d_accel, 
-							d_image, 
-							d_group_members, 
-							group_size, 
-							box, 
-							dt, 
-							d_net_force, 
-							shear_rate
-							);
+	gpu_stokes_step_one_kernel<<<grid, threads>>>(
+		d_pos,
+		d_vel,
+		d_accel,
+		d_image,
+		d_group_members,
+		group_size,
+		box,
+		dt,
+		d_net_force,
+		shear_rate);
 
 	// Quick error check
 	gpuErrchk(cudaPeekAtLastError());
-	
-	
+
 	return cudaSuccess;
 }

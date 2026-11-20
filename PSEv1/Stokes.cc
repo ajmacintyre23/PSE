@@ -52,8 +52,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Modified by Andrew Fiore
 
 #ifdef WIN32
-#pragma warning( push )
-#pragma warning( disable : 4244 )
+#pragma warning(push)
+#pragma warning(disable : 4244)
 #endif
 
 using namespace std;
@@ -69,12 +69,12 @@ using namespace std;
 #include <cublas_v2.h>
 
 /*! \file Stokes.cc
-    \brief Contains code for the Stokes class
+	\brief Contains code for the Stokes class
 */
 
 /*!
 	\param sysdef             SystemDefinition this method will act on. Must not be NULL.
-    	\param group              The group of particles this integration method is to work on
+		\param group              The group of particles this integration method is to work on
 	\param T                  temperature
 	\param seed               seed for random number generator
 	\param nlist              neighbor list
@@ -82,24 +82,26 @@ using namespace std;
 	\param m_error            Tolerance for all calculations
 
 */
-Stokes::Stokes(	std::shared_ptr<SystemDefinition> sysdef,
-                std::shared_ptr<ParticleGroup> group,
-		std::shared_ptr<Variant> T,
-		unsigned int seed,
-		std::shared_ptr<NeighborList> nlist,
-		Scalar xi,
-		Scalar error )
-		: IntegrationMethodTwoStep(sysdef, group),
-		m_T(T),
-		m_seed(seed),
-		m_nlist(nlist),
-		m_xi(xi),
-		m_error(error)
-    {
-    m_exec_conf->msg->notice(5) << "Constructing Stokes" << endl;
+Stokes::Stokes(std::shared_ptr<SystemDefinition> sysdef,
+			   std::shared_ptr<ParticleGroup> group,
+			   std::shared_ptr<Variant> T,
+			   unsigned int seed,
+			   std::shared_ptr<NeighborList> nlist,
+			   Scalar xi,
+			   Scalar error)
+	: IntegrationMethodTwoStep(sysdef, group),
+	  m_T(T),
+	  m_seed(seed),
+	  m_nlist(nlist),
+	  m_xi(xi),
+	  m_error(error)
+{
+	m_exec_conf->msg->notice(5) << "Constructing Stokes" << endl;
 
 	// Hash the User's Seed to make it less likely to be a low positive integer
-	m_seed = m_seed * 0x12345677 + 0x12345; m_seed ^= (m_seed >> 16); m_seed *= 0x45679;
+	m_seed = m_seed * 0x12345677 + 0x12345;
+	m_seed ^= (m_seed >> 16);
+	m_seed *= 0x45679;
 
 	// only one GPU is supported
 	if (!m_exec_conf->isCUDAEnabled())
@@ -107,16 +109,14 @@ Stokes::Stokes(	std::shared_ptr<SystemDefinition> sysdef,
 		m_exec_conf->msg->error() << "Creating a Stokes when CUDA is disabled" << endl;
 		throw std::runtime_error("Error initializing Stokes");
 	}
-
-    }
+}
 
 //! Destructor for the Stokes class
 Stokes::~Stokes()
-    {
-    m_exec_conf->msg->notice(5) << "Destroying Stokes" << endl;
+{
+	m_exec_conf->msg->notice(5) << "Destroying Stokes" << endl;
 	cufftDestroy(plan);
-    }
-
+}
 
 /*!
 	Set the parameters for Hydrodynamic Calculation. Do once at the beginning
@@ -131,18 +131,22 @@ void Stokes::setParams()
 	// Try two Lanczos iterations to start (number of iterations will adapt as needed)
 	m_m_Lanczos = 2;
 
-	// Real space cutoff
-	m_ewald_cut = sqrtf( - logf( m_error ) ) / m_xi;
+	// Real space cutoff.
+	ArrayHandle<Scalar> h_diam(m_pdata->getDiameters(), access_location::host, access_mode::read);
+	Scalar a_max = 0.0;
+	for (unsigned int i = 0; i < m_pdata->getN(); i++)
+		a_max = std::max(a_max, h_diam.data[i] / 2.0f);
+	m_ewald_cut = sqrtf(-logf(m_error)) / m_xi + 2.0 * a_max; // real-space cutoff: Ewald decay length + contact distance
 
 	// Number of grid points
-	int kmax = int( 2.0 * sqrtf( - logf( m_error ) ) * m_xi ) + 1;
+	int kmax = int(2.0 * sqrtf(-logf(m_error)) * m_xi) + 1;
 
-	const BoxDim& box = m_pdata->getBox(); // Only for box not changing with time.
+	const BoxDim &box = m_pdata->getBox(); // Only for box not changing with time.
 	Scalar3 L = box.getL();
 
-	m_Nx = int( kmax * L.x / (2.0 * 3.1415926536 ) * 2.0 ) + 1;
-	m_Ny = int( kmax * L.y / (2.0 * 3.1415926536 ) * 2.0 ) + 1;
-	m_Nz = int( kmax * L.z / (2.0 * 3.1415926536 ) * 2.0 ) + 1;
+	m_Nx = int(kmax * L.x / (2.0 * 3.1415926536) * 2.0) + 1;
+	m_Ny = int(kmax * L.y / (2.0 * 3.1415926536) * 2.0) + 1;
+	m_Nz = int(kmax * L.z / (2.0 * 3.1415926536) * 2.0) + 1;
 
 	// Get list of int values between 8 and 4096 that can be written as
 	// 	(2^a)*(3^b)*(5^c)
@@ -151,48 +155,61 @@ void Stokes::setParams()
 	// Go to such large values so as to be able simulate boxes with large
 	// aspect ratios
 	std::vector<int> Mlist;
-	for ( int ii = 0; ii < 13; ++ii ){
+	for (int ii = 0; ii < 13; ++ii)
+	{
 		int pow2 = 1;
-		for ( int i = 0; i < ii; ++i ){
+		for (int i = 0; i < ii; ++i)
+		{
 			pow2 *= 2;
 		}
-		for ( int jj = 0; jj < 8; ++jj ){
+		for (int jj = 0; jj < 8; ++jj)
+		{
 			int pow3 = 1;
-			for ( int j = 0; j < jj; ++j ){
+			for (int j = 0; j < jj; ++j)
+			{
 				pow3 *= 3;
 			}
-			for ( int kk = 0; kk < 6; ++kk ){
+			for (int kk = 0; kk < 6; ++kk)
+			{
 				int pow5 = 1;
-				for ( int k = 0; k < kk; ++k ){
+				for (int k = 0; k < kk; ++k)
+				{
 					pow5 *= 5;
 				}
 				int Mcurr = pow2 * pow3 * pow5;
-				if ( Mcurr >= 8 && Mcurr <= 4096 ){
+				if (Mcurr >= 8 && Mcurr <= 4096)
+				{
 					Mlist.push_back(Mcurr);
 				}
 			}
 		}
 	}
 	std::sort(Mlist.begin(), Mlist.end());
-	const int nmult = Mlist.size(); 
+	const int nmult = Mlist.size();
 
 	// Compute the number of grid points in each direction
 	//
 	// Number of grid points should be a power of 2,3,5 for most efficient FFTs
-	for ( int ii = 0; ii < nmult; ++ii ){
-		if (m_Nx <= Mlist[ii]){
+	for (int ii = 0; ii < nmult; ++ii)
+	{
+		if (m_Nx <= Mlist[ii])
+		{
 			m_Nx = Mlist[ii];
 			break;
 		}
 	}
-	for ( int ii = 0; ii < nmult; ++ii ){
-		if (m_Ny <= Mlist[ii]){
+	for (int ii = 0; ii < nmult; ++ii)
+	{
+		if (m_Ny <= Mlist[ii])
+		{
 			m_Ny = Mlist[ii];
 			break;
 		}
 	}
-	for ( int ii = 0; ii < nmult; ++ii ){
-		if (m_Nz <= Mlist[ii]){
+	for (int ii = 0; ii < nmult; ++ii)
+	{
+		if (m_Nz <= Mlist[ii])
+		{
 			m_Nz = Mlist[ii];
 			break;
 		}
@@ -200,7 +217,8 @@ void Stokes::setParams()
 
 	// Check that we haven't asked for too many grid points
 	// Max allowable by cuFFT is 512^3
-	if ( m_Nx * m_Ny * m_Nz > 512*512*512 ){
+	if (m_Nx * m_Ny * m_Nz > 512 * 512 * 512)
+	{
 
 		printf("Requested Number of Fourier Nodes Exceeds Max Dimension of 512^3\n");
 		printf("Mx = %i \n", m_Nx);
@@ -215,25 +233,38 @@ void Stokes::setParams()
 
 	// Maximum eigenvalue of A'*A to scale P
 	Scalar gamma = m_max_strain;
-	Scalar gamma2 = gamma*gamma;
-	Scalar lambda = 1.0 + gamma2/2.0 + gamma*sqrtf(1.0 + gamma2/4.0);
+	Scalar gamma2 = gamma * gamma;
+	Scalar lambda = 1.0 + gamma2 / 2.0 + gamma * sqrtf(1.0 + gamma2 / 4.0);
 
 	// Grid spacing
-	m_gridh = L / make_scalar3(m_Nx,m_Ny,m_Nz);
+	m_gridh = L / make_scalar3(m_Nx, m_Ny, m_Nz);
 
 	// Parameters for the Spectral Ewald Method (Lindbo and Tornberg, J. Comp. Phys., 2011)
 	m_gaussm = 1.0;
-	while ( erfcf( m_gaussm / sqrtf(2.0*lambda) ) > m_error ){
-	    m_gaussm = m_gaussm + 0.01;
+	while (erfcf(m_gaussm / sqrtf(2.0 * lambda)) > m_error)
+	{
+		m_gaussm = m_gaussm + 0.01;
 	}
-	m_gaussP = int( m_gaussm*m_gaussm / 3.1415926536 )  + 1;
+	m_gaussP = int(m_gaussm * m_gaussm / 3.1415926536) + 1;
 
-	if (m_gaussP > m_Nx) m_gaussP = m_Nx; // Can't be supported beyond grid
-	if (m_gaussP > m_Ny) m_gaussP = m_Ny;
-	if (m_gaussP > m_Nz) m_gaussP = m_Nz;
-	Scalar w = m_gaussP*m_gridh.x / 2.0;	               // Gaussian width in simulation units
-	Scalar xisq  = m_xi * m_xi;
-	m_eta = (2.0*w/m_gaussm)*(2.0*w/m_gaussm) * ( xisq );  // Gaussian splitting parameter
+	if (m_gaussP > m_Nx)
+		m_gaussP = m_Nx; // Can't be supported beyond grid
+	if (m_gaussP > m_Ny)
+		m_gaussP = m_Ny;
+	if (m_gaussP > m_Nz)
+		m_gaussP = m_Nz;
+	Scalar w = m_gaussP * m_gridh.x / 2.0; // Gaussian width in simulation units
+	Scalar xisq = m_xi * m_xi;
+	m_eta = (2.0 * w / m_gaussm) * (2.0 * w / m_gaussm) * (xisq); // Gaussian splitting parameter
+
+	// Polydisperse: widen support so the shell kernel (radius a_max) fits on the grid
+	m_gaussP += 2 * int(ceilf(a_max / m_gridh.x));
+	if (m_gaussP > m_Nx)
+		m_gaussP = m_Nx;
+	if (m_gaussP > m_Ny)
+		m_gaussP = m_Ny;
+	if (m_gaussP > m_Nz)
+		m_gaussP = m_Nz;
 
 	// Print summary to command line output
 	printf("\n");
@@ -244,12 +275,12 @@ void Stokes::setParams()
 	m_exec_conf->msg->notice(2) << "Mz: " << m_Nz << endl;
 	m_exec_conf->msg->notice(2) << "rcut: " << m_ewald_cut << endl;
 	m_exec_conf->msg->notice(2) << "Points per radius (x,y,z): " << m_Nx / L.x << ", " << m_Ny / L.y << ", " << m_Nz / L.z << endl;
-	m_exec_conf->msg->notice(2) << "--- Gaussian Spreading Parameters ---"  << endl;
+	m_exec_conf->msg->notice(2) << "--- Gaussian Spreading Parameters ---" << endl;
 	m_exec_conf->msg->notice(2) << "gauss_m: " << m_gaussm << endl;
-        m_exec_conf->msg->notice(2) << "gauss_P: " << m_gaussP << endl;
+	m_exec_conf->msg->notice(2) << "gauss_P: " << m_gaussP << endl;
 	m_exec_conf->msg->notice(2) << "gauss_eta: " << m_eta << endl;
 	m_exec_conf->msg->notice(2) << "gauss_w: " << w << endl;
-	m_exec_conf->msg->notice(2) << "gauss_gridh (x,y,z): " << L.x/m_Nx << ", " << L.y/m_Ny << ", " << L.z/m_Nz << endl;
+	m_exec_conf->msg->notice(2) << "gauss_gridh (x,y,z): " << L.x / m_Nx << ", " << L.y / m_Ny << ", " << L.z / m_Nz << endl;
 	printf("\n");
 	printf("\n");
 
@@ -257,43 +288,47 @@ void Stokes::setParams()
 	cufftPlan3d(&plan, m_Nx, m_Ny, m_Nz, CUFFT_C2C);
 
 	// Prepare GPUArrays for grid vectors and gridded forces
-	GPUArray<Scalar4> n_gridk(m_Nx*m_Ny*m_Nz, m_exec_conf);
+	GPUArray<Scalar4> n_gridk(m_Nx * m_Ny * m_Nz, m_exec_conf);
 	m_gridk.swap(n_gridk);
-	GPUArray<cufftComplex> n_gridX(m_Nx*m_Ny*m_Nz, m_exec_conf);
+	GPUArray<cufftComplex> n_gridX(m_Nx * m_Ny * m_Nz, m_exec_conf);
 	m_gridX.swap(n_gridX);
-	GPUArray<cufftComplex> n_gridY(m_Nx*m_Ny*m_Nz, m_exec_conf);
+	GPUArray<cufftComplex> n_gridY(m_Nx * m_Ny * m_Nz, m_exec_conf);
 	m_gridY.swap(n_gridY);
-	GPUArray<cufftComplex> n_gridZ(m_Nx*m_Ny*m_Nz, m_exec_conf);
+	GPUArray<cufftComplex> n_gridZ(m_Nx * m_Ny * m_Nz, m_exec_conf);
 	m_gridZ.swap(n_gridZ);
 
 	// Get list of reciprocal space vectors, and scaling factor for the wave space calculation at each grid point
 	ArrayHandle<Scalar4> h_gridk(m_gridk, access_location::host, access_mode::readwrite);
-	for (int i = 0; i < m_Nx; i++) {
-		for (int j = 0; j < m_Ny; j++) {
-			for (int k = 0; k < m_Nz; k++) {
+	for (int i = 0; i < m_Nx; i++)
+	{
+		for (int j = 0; j < m_Ny; j++)
+		{
+			for (int k = 0; k < m_Nz; k++)
+			{
 
 				// Index into grid vector storage array
-				int idx = i * m_Ny*m_Nz + j * m_Nz + k;
+				int idx = i * m_Ny * m_Nz + j * m_Nz + k;
 
 				// k goes from -N/2 to N/2
-				h_gridk.data[idx].x = 2.0*3.1415926536 * ((i < ( m_Nx + 1 ) / 2) ? i : i - m_Nx) / L.x;
-				h_gridk.data[idx].y = 2.0*3.1415926536 * ((j < ( m_Ny + 1 ) / 2) ? j : j - m_Ny) / L.y;
-				h_gridk.data[idx].z = 2.0*3.1415926536 * ((k < ( m_Nz + 1 ) / 2) ? k : k - m_Nz) / L.z;
+				h_gridk.data[idx].x = 2.0 * 3.1415926536 * ((i < (m_Nx + 1) / 2) ? i : i - m_Nx) / L.x;
+				h_gridk.data[idx].y = 2.0 * 3.1415926536 * ((j < (m_Ny + 1) / 2) ? j : j - m_Ny) / L.y;
+				h_gridk.data[idx].z = 2.0 * 3.1415926536 * ((k < (m_Nz + 1) / 2) ? k : k - m_Nz) / L.z;
 
 				// k dot k
-				Scalar k2 = h_gridk.data[idx].x*h_gridk.data[idx].x + h_gridk.data[idx].y*h_gridk.data[idx].y + h_gridk.data[idx].z*h_gridk.data[idx].z;
+				Scalar k2 = h_gridk.data[idx].x * h_gridk.data[idx].x + h_gridk.data[idx].y * h_gridk.data[idx].y + h_gridk.data[idx].z * h_gridk.data[idx].z;
 
 				// Scaling factor used in wave space sum
 				//
 				// Can't include k=0 term in the Ewald sum
-				if (i == 0 && j == 0 && k == 0){
+				if (i == 0 && j == 0 && k == 0)
+				{
 					h_gridk.data[idx].w = 0;
 				}
-				else{
+				else
+				{
 					// Have to divide by Nx*Ny*Nz to normalize the FFTs
-					h_gridk.data[idx].w = 6.0*3.1415926536 * (1.0 + k2/4.0/xisq) * expf( -(1-m_eta) * k2/4.0/xisq ) / ( k2 ) / Scalar( m_Nx*m_Ny*m_Nz );
+					h_gridk.data[idx].w = 6.0 * 3.1415926536 * (1.0 + k2 / 4.0 / xisq) * expf(-(1 - m_eta) * k2 / 4.0 / xisq) / (k2) / Scalar(m_Nx * m_Ny * m_Nz);
 				}
-
 			}
 		}
 	}
@@ -305,129 +340,118 @@ void Stokes::setParams()
 	//
 	// Do calculation in double precision, then truncate and tabulate, because the
 	// expressions don't behave very well numerically, and double precision ensures
-	// it works. 
-	m_ewald_dr = 0.001; 		           // Distance resolution
-	m_ewald_n = m_ewald_cut / m_ewald_dr - 1;  // Number of entries in tabulation
+	// it works.
+	m_ewald_dr = 0.001;						  // Distance resolution
+	m_ewald_n = m_ewald_cut / m_ewald_dr - 1; // Number of entries in tabulation
 
 	double dr = 0.0010000000000000;
 
 	// Assume all particles have radius of 1.0
-        Scalar pi12 = 1.77245385091;
-        Scalar aa = 1.0;
-	Scalar axi = aa * m_xi;
-	Scalar axi2 = axi * axi;
-        m_self = (1. + 4.*pi12*axi*erfc(2.*axi) - exp(-4.*axi2))/(4.*pi12*axi*aa);
+	Scalar pi12 = 1.77245385091;
+	GPUArray<Scalar> n_self(m_pdata->getN(), m_exec_conf);
+	m_self.swap(n_self);
+	ArrayHandle<Scalar> h_self(m_self, access_location::host, access_mode::readwrite);
+
+	for (unsigned int i = 0; i < m_pdata->getN(); i++)
+	{
+		double ai = h_diam.data[i] / 2.0;
+		double axi = ai * double(m_xi);
+		double axi2 = axi * axi;
+		h_self.data[i] = (1. + 4. * pi12 * axi * erfc(2. * axi) - exp(-4. * axi2)) / (4. * pi12 * axi * ai);
+	}
+
+	// Get per-type radii for polydisperse table construction
+	int n_types = m_pdata->getNTypes();
+	m_n_types = n_types;
+	ArrayHandle<Scalar4> h_pos(m_pdata->getPositions(), access_location::host, access_mode::read);
+	std::vector<double> type_radii(n_types, 0.0);
+	for (unsigned int i = 0; i < m_pdata->getN(); i++)
+	{
+		int type = __scalar_as_int(h_pos.data[i].w);
+		type_radii[type] = h_diam.data[i] / 2.0;
+	}
 
 	// Allocate storage for real space Ewald table
 	int nR = m_ewald_n + 1; // number of entries in ewald table
-	GPUArray<Scalar4> n_ewaldC1( nR, m_exec_conf);
+	GPUArray<Scalar4> n_ewaldC1(nR, m_exec_conf);
 	m_ewaldC1.swap(n_ewaldC1);
 	ArrayHandle<Scalar4> h_ewaldC1(m_ewaldC1, access_location::host, access_mode::readwrite);
 
 	// Functions are complicated so calculation should be done in double precision, then truncated to single precision
 	// in order to ensure accurate evaluation
-	double xi  = m_xi;
+	double xi = m_xi;
 	double Pi = 3.141592653589793;
 	double a = aa;
 
-	// Fill tables
-	for ( int kk = 0; kk < nR; kk++ )
+	// Fill table for each particle type pair (ti, tj)
+	for (int ti = 0; ti < n_types; ti++)
 	{
+		double ai = type_radii[ti];
+		for (int tj = 0; tj < n_types; tj++)
+		{
+			double aj = type_radii[tj];
+			int pair_offset = (ti * n_types + tj) * nR;
 
-		// Initialize entries
-		h_ewaldC1.data[ kk ].x = 0.0; // UF1 at r
-		h_ewaldC1.data[ kk ].y = 0.0; // UF2 at r
-		h_ewaldC1.data[ kk ].z = 0.0; // UF1 at r + dr
-		h_ewaldC1.data[ kk ].w = 0.0; // UF2 at r + dr
+			for (int kk = 0; kk < nR; kk++)
+			{
 
-		// Distance for current entry
-		double r = double( kk ) * dr + dr;
-		double Imrr = 0, rr = 0;
+				// Initialize entries
+				h_ewaldC1.data[pair_offset + kk].x = 0.0; // UF1 at r
+				h_ewaldC1.data[pair_offset + kk].y = 0.0; // UF2 at r
+				h_ewaldC1.data[pair_offset + kk].z = 0.0; // UF1 at r + dr
+				h_ewaldC1.data[pair_offset + kk].w = 0.0; // UF2 at r + dr
 
-		// Expression have been simplified assuming no overlap, touching, and overlap
-		if ( r > 2.0*a ){
+				double r = double(kk) * dr + dr;
 
-			Imrr = -pow(a,-1) + (pow(a,2)*pow(r,-3))/2. + (3*pow(r,-1))/4. + (3*erfc(r*xi)*pow(a,-2)*pow(r,-3)*(-12*pow(r,4) + pow(xi,-4)))/128. +
-   pow(a,-2)*((9*r)/32. - (3*pow(r,-3)*pow(xi,-4))/128.) +
-   (erfc((2*a + r)*xi)*(128*pow(a,-1) + 64*pow(a,2)*pow(r,-3) + 96*pow(r,-1) + pow(a,-2)*(36*r - 3*pow(r,-3)*pow(xi,-4))))/256. +
-   (erfc(2*a*xi - r*xi)*(128*pow(a,-1) - 64*pow(a,2)*pow(r,-3) - 96*pow(r,-1) + pow(a,-2)*(-36*r + 3*pow(r,-3)*pow(xi,-4))))/
-    256. + (3*exp(-(pow(r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-2)*pow(xi,-3)*(1 + 6*pow(r,2)*pow(xi,2)))/64. +
-   (exp(-(pow(2*a + r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-3)*pow(xi,-3)*
-      (8*r*pow(a,2)*pow(xi,2) - 16*pow(a,3)*pow(xi,2) + a*(2 - 28*pow(r,2)*pow(xi,2)) - 3*(r + 6*pow(r,3)*pow(xi,2))))/128. +
-   (exp(-(pow(-2*a + r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-3)*pow(xi,-3)*
-      (8*r*pow(a,2)*pow(xi,2) + 16*pow(a,3)*pow(xi,2) + a*(-2 + 28*pow(r,2)*pow(xi,2)) - 3*(r + 6*pow(r,3)*pow(xi,2))))/128.;
+				double c1 = r - ai - aj;
+				double c2 = r - ai + aj;
+				double c3 = r + ai - aj;
+				double c4 = r + ai + aj;
 
-			rr = -pow(a,-1) - pow(a,2)*pow(r,-3) + (3*pow(r,-1))/2. + (3*pow(a,-2)*pow(r,-3)*(4*pow(r,4) + pow(xi,-4)))/64. +
-   (erfc(2*a*xi - r*xi)*(64*pow(a,-1) + 64*pow(a,2)*pow(r,-3) - 96*pow(r,-1) + pow(a,-2)*(-12*r - 3*pow(r,-3)*pow(xi,-4))))/128. +
-   (erfc((2*a + r)*xi)*(64*pow(a,-1) - 64*pow(a,2)*pow(r,-3) + 96*pow(r,-1) + pow(a,-2)*(12*r + 3*pow(r,-3)*pow(xi,-4))))/128. +
-   (3*exp(-(pow(r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-2)*pow(xi,-3)*(-1 + 2*pow(r,2)*pow(xi,2)))/32. -
-   ((2*a + 3*r)*exp(-(pow(-2*a + r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-3)*pow(xi,-3)*
-      (-1 - 8*a*r*pow(xi,2) + 8*pow(a,2)*pow(xi,2) + 2*pow(r,2)*pow(xi,2)))/64. +
-   ((2*a - 3*r)*exp(-(pow(2*a + r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-3)*pow(xi,-3)*
-      (-1 + 8*a*r*pow(xi,2) + 8*pow(a,2)*pow(xi,2) + 2*pow(r,2)*pow(xi,2)))/64. -
-   (3*erfc(r*xi)*pow(a,-2)*pow(r,-3)*pow(xi,-4)*(1 + 4*pow(r,4)*pow(xi,4)))/64.;
+				double Imrr = 0.0, rr = 0.0;
 
-		}
-		else if ( r == 2.0*a ){
+				if (c1 >= 0.0)
+				{ // r > 2a: non-overlapping
+					Imrr = ((0) + (-(2 * pow(xi, 2) * c1 * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2)) + 4 * r - c1) * exp(-pow(c1, 2) * pow(xi, 2)) + (2 * pow(xi, 2) * c2 * (pow(c2, 2) - 4 * r * c2 + 12 * pow(r, 2)) + 4 * r - c2) * exp(-pow(c2, 2) * pow(xi, 2)) + (2 * pow(xi, 2) * c3 * (pow(c3, 2) - 4 * r * c3 + 12 * pow(r, 2)) + 4 * r - c3) * exp(-pow(c3, 2) * pow(xi, 2)) - (2 * pow(xi, 2) * c4 * (pow(c4, 2) - 4 * r * c4 + 12 * pow(r, 2)) + 4 * r - c4) * exp(-pow(c4, 2) * pow(xi, 2))) / (128 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 2) * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2)) - 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 2) * (pow(c2, 2) - 4 * r * c2 + 12 * pow(r, 2)) - 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 2) * (pow(c3, 2) - 4 * r * c3 + 12 * pow(r, 2)) - 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 2) * (pow(c4, 2) - 4 * r * c4 + 12 * pow(r, 2)) - 3) * erfc(c4 * xi)) / (256 * aj * pow(r, 3) * pow(xi, 4))) / ai;
 
-			Imrr = -(pow(a,-5)*(3 + 16*a*xi*pow(Pi,-0.5))*pow(xi,-4))/2048. + (3*erfc(2*a*xi)*pow(a,-5)*(-192*pow(a,4) + pow(xi,-4)))/1024. +
-   erfc(4*a*xi)*(pow(a,-1) - (3*pow(a,-5)*pow(xi,-4))/2048.) +
-   (exp(-16*pow(a,2)*pow(xi,2))*pow(a,-4)*pow(Pi,-0.5)*pow(xi,-3)*(-1 - 64*pow(a,2)*pow(xi,2)))/256. +
-   (3*exp(-4*pow(a,2)*pow(xi,2))*pow(a,-4)*pow(Pi,-0.5)*pow(xi,-3)*(1 + 24*pow(a,2)*pow(xi,2)))/256.;
+					rr = ((0) + (-(4 * r - c1) * (2 * pow(xi, 2) * pow(c1, 2) - 1) * exp(-pow(c1, 2) * pow(xi, 2)) + (4 * r - c2) * (2 * pow(xi, 2) * pow(c2, 2) - 1) * exp(-pow(c2, 2) * pow(xi, 2)) + (4 * r - c3) * (2 * pow(xi, 2) * pow(c3, 2) - 1) * exp(-pow(c3, 2) * pow(xi, 2)) - (4 * r - c4) * (2 * pow(xi, 2) * pow(c4, 2) - 1) * exp(-pow(c4, 2) * pow(xi, 2))) / (64 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 3) * (4 * r - c1) + 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 3) * (4 * r - c2) + 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 3) * (4 * r - c3) + 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 3) * (4 * r - c4) + 3) * erfc(c4 * xi)) / (128 * aj * pow(r, 3) * pow(xi, 4))) / ai;
+				}
+				else if (c2 >= 0.0 && c3 >= 0.0)
+				{ // overlapping, neither inside the other
+					Imrr = ((-pow(c1, 2) * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2))) / (32 * aj * pow(r, 3)) + (-(2 * pow(xi, 2) * c1 * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2)) + 4 * r - c1) * exp(-pow(c1, 2) * pow(xi, 2)) + (2 * pow(xi, 2) * c2 * (pow(c2, 2) - 4 * r * c2 + 12 * pow(r, 2)) + 4 * r - c2) * exp(-pow(c2, 2) * pow(xi, 2)) + (2 * pow(xi, 2) * c3 * (pow(c3, 2) - 4 * r * c3 + 12 * pow(r, 2)) + 4 * r - c3) * exp(-pow(c3, 2) * pow(xi, 2)) - (2 * pow(xi, 2) * c4 * (pow(c4, 2) - 4 * r * c4 + 12 * pow(r, 2)) + 4 * r - c4) * exp(-pow(c4, 2) * pow(xi, 2))) / (128 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 2) * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2)) - 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 2) * (pow(c2, 2) - 4 * r * c2 + 12 * pow(r, 2)) - 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 2) * (pow(c3, 2) - 4 * r * c3 + 12 * pow(r, 2)) - 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 2) * (pow(c4, 2) - 4 * r * c4 + 12 * pow(r, 2)) - 3) * erfc(c4 * xi)) / (256 * aj * pow(r, 3) * pow(xi, 4))) / ai;
 
-			rr = (pow(a,-5)*(3 + 16*a*xi*pow(Pi,-0.5))*pow(xi,-4))/1024. + erfc(2*a*xi)*((-3*pow(a,-1))/8. - (3*pow(a,-5)*pow(xi,-4))/512.) +
-   erfc(4*a*xi)*(pow(a,-1) + (3*pow(a,-5)*pow(xi,-4))/1024.) +
-   (exp(-16*pow(a,2)*pow(xi,2))*pow(a,-4)*pow(Pi,-0.5)*pow(xi,-3)*(1 - 32*pow(a,2)*pow(xi,2)))/128. +
-   (3*exp(-4*pow(a,2)*pow(xi,2))*pow(a,-4)*pow(Pi,-0.5)*pow(xi,-3)*(-1 + 8*pow(a,2)*pow(xi,2)))/128.;
+					rr = ((-pow(c1, 3) * (4 * r - c1)) / (16 * aj * pow(r, 3)) + (-(4 * r - c1) * (2 * pow(xi, 2) * pow(c1, 2) - 1) * exp(-pow(c1, 2) * pow(xi, 2)) + (4 * r - c2) * (2 * pow(xi, 2) * pow(c2, 2) - 1) * exp(-pow(c2, 2) * pow(xi, 2)) + (4 * r - c3) * (2 * pow(xi, 2) * pow(c3, 2) - 1) * exp(-pow(c3, 2) * pow(xi, 2)) - (4 * r - c4) * (2 * pow(xi, 2) * pow(c4, 2) - 1) * exp(-pow(c4, 2) * pow(xi, 2))) / (64 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 3) * (4 * r - c1) + 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 3) * (4 * r - c2) + 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 3) * (4 * r - c3) + 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 3) * (4 * r - c4) + 3) * erfc(c4 * xi)) / (128 * aj * pow(r, 3) * pow(xi, 4))) / ai;
+				}
 
-		}
-		else if ( r < 2*a){
+				else if (c2 < 0.0 && c3 > 0)
+				{ // Sphere 2 is fully inside sphere 1, ai > aj
+					Imrr = (1 - (ai * (pow(ai, 2) + pow(aj, 2) + 3 * pow(r, 2))) / (4 * pow(r, 3)) + (-(2 * pow(xi, 2) * c1 * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2)) + 4 * r - c1) * exp(-pow(c1, 2) * pow(xi, 2)) + (2 * pow(xi, 2) * c2 * (pow(c2, 2) - 4 * r * c2 + 12 * pow(r, 2)) + 4 * r - c2) * exp(-pow(c2, 2) * pow(xi, 2)) + (2 * pow(xi, 2) * c3 * (pow(c3, 2) - 4 * r * c3 + 12 * pow(r, 2)) + 4 * r - c3) * exp(-pow(c3, 2) * pow(xi, 2)) - (2 * pow(xi, 2) * c4 * (pow(c4, 2) - 4 * r * c4 + 12 * pow(r, 2)) + 4 * r - c4) * exp(-pow(c4, 2) * pow(xi, 2))) / (128 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 2) * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2)) - 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 2) * (pow(c2, 2) - 4 * r * c2 + 12 * pow(r, 2)) - 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 2) * (pow(c3, 2) - 4 * r * c3 + 12 * pow(r, 2)) - 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 2) * (pow(c4, 2) - 4 * r * c4 + 12 * pow(r, 2)) - 3) * erfc(c4 * xi)) / (256 * aj * pow(r, 3) * pow(xi, 4))) / ai;
 
-			Imrr = (-9*r*pow(a,-2))/32. + pow(a,-1) - (pow(a,2)*pow(r,-3))/2. - (3*pow(r,-1))/4. +
-   (3*erfc(r*xi)*pow(a,-2)*pow(r,-3)*(-12*pow(r,4) + pow(xi,-4)))/128. +
-   (erfc((-2*a + r)*xi)*(-128*pow(a,-1) + 64*pow(a,2)*pow(r,-3) + 96*pow(r,-1) + pow(a,-2)*(36*r - 3*pow(r,-3)*pow(xi,-4))))/
-    256. + (erfc((2*a + r)*xi)*(128*pow(a,-1) + 64*pow(a,2)*pow(r,-3) + 96*pow(r,-1) + pow(a,-2)*(36*r - 3*pow(r,-3)*pow(xi,-4))))/
-    256. + (3*exp(-(pow(r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-2)*pow(xi,-3)*(1 + 6*pow(r,2)*pow(xi,2)))/64. +
-   (exp(-(pow(2*a + r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-3)*pow(xi,-3)*
-      (8*r*pow(a,2)*pow(xi,2) - 16*pow(a,3)*pow(xi,2) + a*(2 - 28*pow(r,2)*pow(xi,2)) - 3*(r + 6*pow(r,3)*pow(xi,2))))/128. +
-   (exp(-(pow(-2*a + r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-3)*pow(xi,-3)*
-      (8*r*pow(a,2)*pow(xi,2) + 16*pow(a,3)*pow(xi,2) + a*(-2 + 28*pow(r,2)*pow(xi,2)) - 3*(r + 6*pow(r,3)*pow(xi,2))))/128.;
+					rr = (1 + (ai * (pow(ai, 2) + pow(aj, 2) - 3 * pow(r, 2))) / (2 * pow(r, 3)) + (-(4 * r - c1) * (2 * pow(xi, 2) * pow(c1, 2) - 1) * exp(-pow(c1, 2) * pow(xi, 2)) + (4 * r - c2) * (2 * pow(xi, 2) * pow(c2, 2) - 1) * exp(-pow(c2, 2) * pow(xi, 2)) + (4 * r - c3) * (2 * pow(xi, 2) * pow(c3, 2) - 1) * exp(-pow(c3, 2) * pow(xi, 2)) - (4 * r - c4) * (2 * pow(xi, 2) * pow(c4, 2) - 1) * exp(-pow(c4, 2) * pow(xi, 2))) / (64 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 3) * (4 * r - c1) + 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 3) * (4 * r - c2) + 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 3) * (4 * r - c3) + 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 3) * (4 * r - c4) + 3) * erfc(c4 * xi)) / (128 * aj * pow(r, 3) * pow(xi, 4))) / ai;
+				}
 
-			rr = ((2*a + 3*r)*pow(a,-2)*pow(2*a - r,3)*pow(r,-3))/16. +
-   (erfc((-2*a + r)*xi)*(-64*pow(a,-1) - 64*pow(a,2)*pow(r,-3) + 96*pow(r,-1) + pow(a,-2)*(12*r + 3*pow(r,-3)*pow(xi,-4))))/128. +
-   (erfc((2*a + r)*xi)*(64*pow(a,-1) - 64*pow(a,2)*pow(r,-3) + 96*pow(r,-1) + pow(a,-2)*(12*r + 3*pow(r,-3)*pow(xi,-4))))/128. +
-   (3*exp(-(pow(r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-2)*pow(xi,-3)*(-1 + 2*pow(r,2)*pow(xi,2)))/32. -
-   ((2*a + 3*r)*exp(-(pow(-2*a + r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-3)*pow(xi,-3)*
-      (-1 - 8*a*r*pow(xi,2) + 8*pow(a,2)*pow(xi,2) + 2*pow(r,2)*pow(xi,2)))/64. +
-   ((2*a - 3*r)*exp(-(pow(2*a + r,2)*pow(xi,2)))*pow(a,-2)*pow(Pi,-0.5)*pow(r,-3)*pow(xi,-3)*
-      (-1 + 8*a*r*pow(xi,2) + 8*pow(a,2)*pow(xi,2) + 2*pow(r,2)*pow(xi,2)))/64. -
-   (3*erfc(r*xi)*pow(a,-2)*pow(r,-3)*pow(xi,-4)*(1 + 4*pow(r,4)*pow(xi,4)))/64.;
+				else if (c2 > 0.0 && c3 < 0)
+				{ // Sphere 2 is fully inside sphere 1, ai > aj
+					Imrr = ((ai / aj) - (ai * (pow(ai, 2) + pow(aj, 2) + 3 * pow(r, 2))) / (4 * pow(r, 3)) + (-(2 * pow(xi, 2) * c1 * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2)) + 4 * r - c1) * exp(-pow(c1, 2) * pow(xi, 2)) + (2 * pow(xi, 2) * c2 * (pow(c2, 2) - 4 * r * c2 + 12 * pow(r, 2)) + 4 * r - c2) * exp(-pow(c2, 2) * pow(xi, 2)) + (2 * pow(xi, 2) * c3 * (pow(c3, 2) - 4 * r * c3 + 12 * pow(r, 2)) + 4 * r - c3) * exp(-pow(c3, 2) * pow(xi, 2)) - (2 * pow(xi, 2) * c4 * (pow(c4, 2) - 4 * r * c4 + 12 * pow(r, 2)) + 4 * r - c4) * exp(-pow(c4, 2) * pow(xi, 2))) / (128 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 2) * (pow(c1, 2) - 4 * r * c1 + 12 * pow(r, 2)) - 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 2) * (pow(c2, 2) - 4 * r * c2 + 12 * pow(r, 2)) - 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 2) * (pow(c3, 2) - 4 * r * c3 + 12 * pow(r, 2)) - 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 2) * (pow(c4, 2) - 4 * r * c4 + 12 * pow(r, 2)) - 3) * erfc(c4 * xi)) / (256 * aj * pow(r, 3) * pow(xi, 4))) / ai;
 
-		}
+					rr = ((ai / aj) + (ai * (pow(ai, 2) + pow(aj, 2) - 3 * pow(r, 2))) / (2 * pow(r, 3)) + (-(4 * r - c1) * (2 * pow(xi, 2) * pow(c1, 2) - 1) * exp(-pow(c1, 2) * pow(xi, 2)) + (4 * r - c2) * (2 * pow(xi, 2) * pow(c2, 2) - 1) * exp(-pow(c2, 2) * pow(xi, 2)) + (4 * r - c3) * (2 * pow(xi, 2) * pow(c3, 2) - 1) * exp(-pow(c3, 2) * pow(xi, 2)) - (4 * r - c4) * (2 * pow(xi, 2) * pow(c4, 2) - 1) * exp(-pow(c4, 2) * pow(xi, 2))) / (64 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 3) * (4 * r - c1) + 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 3) * (4 * r - c2) + 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 3) * (4 * r - c3) + 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 3) * (4 * r - c4) + 3) * erfc(c4 * xi)) / (128 * aj * pow(r, 3) * pow(xi, 4))) / ai;
+				}
 
-		// Save values to table
-		h_ewaldC1.data[ kk ].x = Scalar( Imrr ); // UF1
-		h_ewaldC1.data[ kk ].y = Scalar( rr );   // UF2
+				// Save values to table
+				h_ewaldC1.data[pair_offset + kk].x = Scalar(Imrr); // UF1
+				h_ewaldC1.data[pair_offset + kk].y = Scalar(rr);   // UF2
 
-	} // kk loop over distances
+			} // kk loop
 
-	// Both pieces of UF data for faster interpolation (r and r+dr stored in same Scalar4)
-	for ( int kk = 0; kk < (nR-1); kk++ ){
+			// Both pieces of UF data for faster interpolation (r and r+dr stored in same Scalar4)
+			for (int kk = 0; kk < (nR - 1); kk++)
+			{
+				h_ewaldC1.data[pair_offset + kk].z = h_ewaldC1.data[pair_offset + kk + 1].x;
+				h_ewaldC1.data[pair_offset + kk].w = h_ewaldC1.data[pair_offset + kk + 1].y;
+			}
 
-		int offset1 = kk;
-		int offset2 = (kk+1);
-
-		h_ewaldC1.data[ offset1 ].z = h_ewaldC1.data[ offset2 ].x;
-		h_ewaldC1.data[ offset1 ].w = h_ewaldC1.data[ offset2 ].y;
-	}
-
-	//// Initialization for needed arrays
-
-	// membership list
-	m_Ntotal = m_pdata->getN();
-	GPUArray<int> n_group_membership(m_Ntotal, m_exec_conf);
-	m_group_membership.swap(n_group_membership);
-
+		} // tj loop
+	} // ti loop
 }
 
 /*! \param timestep Current time step
@@ -451,7 +475,7 @@ void Stokes::integrateStepOne(unsigned int timestep)
 		return;
 
 	// Get particle forces
-	const GlobalArray< Scalar4 >& net_force = m_pdata->getNetForce();
+	const GlobalArray<Scalar4> &net_force = m_pdata->getNetForce();
 
 	// profile this step
 	if (m_prof)
@@ -466,7 +490,7 @@ void Stokes::integrateStepOne(unsigned int timestep)
 	ArrayHandle<int> d_group_membership(m_group_membership, access_location::device, access_mode::readwrite); // active group indices
 
 	BoxDim box = m_pdata->getBox();
-	ArrayHandle< unsigned int > d_index_array(m_group->getIndexArray(), access_location::device, access_mode::read); // d_group_members, particles in the active group
+	ArrayHandle<unsigned int> d_index_array(m_group->getIndexArray(), access_location::device, access_mode::read); // d_group_members, particles in the active group
 
 	// Grid vectors
 	ArrayHandle<Scalar4> d_gridk(m_gridk, access_location::device, access_mode::readwrite);
@@ -477,50 +501,55 @@ void Stokes::integrateStepOne(unsigned int timestep)
 	// Real space interaction tabulation
 	ArrayHandle<Scalar4> d_ewaldC1(m_ewaldC1, access_location::device, access_mode::read);
 
-        // Calculate the shear rate of the current timestep
-        Scalar current_shear_rate = m_shear_func -> getShearRate(timestep);
+	// Per-particle self mobility and diameters for polydisperse interactions
+	ArrayHandle<Scalar> d_self(m_self, access_location::device, access_mode::read);
+	ArrayHandle<Scalar> d_diam(m_pdata->getDiameters(), access_location::device, access_mode::read);
+
+	// Calculate the shear rate of the current timestep
+	Scalar current_shear_rate = m_shear_func->getShearRate(timestep);
 
 	// perform the update on the GPU
 	gpu_stokes_step_one(
-				d_pos.data,
-				d_vel.data,
-				d_accel.data,
-				d_image.data,
-				d_index_array.data, // d_group_members.data
-				d_group_membership.data,
-				group_size,
-				box,
-				m_deltaT,
-				256,
-				d_net_force.data,
-				m_T->getValue(timestep),
-				timestep,
-				m_seed,
-				m_xi,
-				m_eta,
-				m_ewald_cut,
-				m_ewald_dr,
-				m_ewald_n,
-				d_ewaldC1.data,
-				m_self,
-				d_gridk.data,
-				d_gridX.data,
-				d_gridY.data,
-				d_gridZ.data,
-				plan,
-				m_Nx,
-				m_Ny,
-				m_Nz,
-				d_n_neigh.data,
-				d_nlist.data,
-				d_headlist.data,
-				m_m_Lanczos,
-				m_pdata->getN(),
-				m_gaussP,
-				m_gridh,
-				m_error,
-				current_shear_rate
-				);
+		d_pos.data,
+		d_vel.data,
+		d_accel.data,
+		d_image.data,
+		d_index_array.data,
+		d_group_membership.data,
+		group_size,
+		box,
+		m_deltaT,
+		256,
+		d_net_force.data,
+		m_T->getValue(timestep),
+		timestep,
+		m_seed,
+		m_xi,
+		m_eta,
+		m_ewald_cut,
+		m_ewald_dr,
+		m_ewald_n,
+		d_ewaldC1.data,
+		d_self.data, // Changed
+		d_diam.data, // Added
+		m_n_types,	 // Added
+		d_gridk.data,
+		d_gridX.data,
+		d_gridY.data,
+		d_gridZ.data,
+		plan,
+		m_Nx,
+		m_Ny,
+		m_Nz,
+		d_n_neigh.data,
+		d_nlist.data,
+		d_headlist.data,
+		m_m_Lanczos,
+		m_pdata->getN(),
+		m_gaussP,
+		m_gridh,
+		m_error,
+		current_shear_rate);
 
 	if (m_exec_conf->isCUDAErrorCheckingEnabled())
 		CHECK_CUDA_ERROR();
@@ -528,7 +557,6 @@ void Stokes::integrateStepOne(unsigned int timestep)
 	// done profiling
 	if (m_prof)
 		m_prof->pop(m_exec_conf);
-
 }
 
 /*! \param timestep Current time step
@@ -538,16 +566,15 @@ void Stokes::integrateStepTwo(unsigned int timestep)
 {
 }
 
-void export_Stokes(pybind11::module& m)
-    {
-    pybind11::class_<Stokes, std::shared_ptr<Stokes> > (m, "Stokes", pybind11::base<IntegrationMethodTwoStep>()) 
-		.def(pybind11::init< std::shared_ptr<SystemDefinition>, std::shared_ptr<ParticleGroup>, std::shared_ptr<Variant>, unsigned int, std::shared_ptr<NeighborList>, Scalar, Scalar >())
+void export_Stokes(pybind11::module &m)
+{
+	pybind11::class_<Stokes, std::shared_ptr<Stokes>>(m, "Stokes", pybind11::base<IntegrationMethodTwoStep>())
+		.def(pybind11::init<std::shared_ptr<SystemDefinition>, std::shared_ptr<ParticleGroup>, std::shared_ptr<Variant>, unsigned int, std::shared_ptr<NeighborList>, Scalar, Scalar>())
 		.def("setT", &Stokes::setT)
 		.def("setParams", &Stokes::setParams)
-                .def("setShear", &Stokes::setShear)
-        ;
-    }
+		.def("setShear", &Stokes::setShear);
+}
 
 #ifdef WIN32
-#pragma warning( pop )
+#pragma warning(pop)
 #endif

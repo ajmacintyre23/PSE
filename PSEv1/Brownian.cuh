@@ -51,7 +51,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Modified by Andrew Fiore
 
 /*! \file Brownian.cuh
-    \brief Declares GPU kernel codes for Brownian Calculations.
+	\brief Declares GPU kernel codes for Brownian Calculations.
 */
 #include "hoomd/ParticleData.cuh"
 #include "hoomd/HOOMDMath.h"
@@ -64,69 +64,68 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __BROWNIAN_CUH__
 
 __global__ void gpu_stokes_BrownianGenerate_kernel(
-				Scalar4 *d_psi,
-				unsigned int group_size,
-				unsigned int *d_group_members,
-				const unsigned int timestep, 
-				const unsigned int seed 
-				);
+	Scalar4 *d_psi,
+	unsigned int group_size,
+	unsigned int *d_group_members,
+	const unsigned int timestep,
+	const unsigned int seed);
 
-__global__ void gpu_stokes_BrownianGridGenerate_kernel(  
-					cufftComplex *gridX,
-					cufftComplex *gridY,
-					cufftComplex *gridZ,
-					Scalar4 *gridk,
-				        unsigned int NxNyNz,
-					int Nx,
-					int Ny,
-					int Nz,
-				        const unsigned int timestep, 
-				        const unsigned int seed,
-					Scalar T,
-					Scalar dt,
-					Scalar quadW 
-					);
+__global__ void gpu_stokes_BrownianGridGenerate_kernel(
+	cufftComplex *gridX,
+	cufftComplex *gridY,
+	cufftComplex *gridZ,
+	Scalar4 *gridk,
+	unsigned int NxNyNz,
+	int Nx,
+	int Ny,
+	int Nz,
+	const unsigned int timestep,
+	const unsigned int seed,
+	Scalar T,
+	Scalar dt,
+	Scalar quadW);
 
-void gpu_stokes_CombinedMobilityBrownian_wrap( 
-				Scalar4 *d_pos,
-				Scalar4 *d_net_force,
-                                unsigned int *d_group_members,
-								int *d_group_membership,
-                                unsigned int group_size,
-                                const BoxDim& box,
-                                Scalar dt,
-			        Scalar4 *d_vel,
-			        const Scalar T,
-			        const unsigned int timestep,
-			        const unsigned int seed,
-			        Scalar xi,
-				Scalar eta,
-				Scalar P,
-			        Scalar ewald_cut,
-			        Scalar ewald_dr,
-			        int ewald_n,
-			        Scalar4 *d_ewaldC1, 
-			        Scalar4 *d_gridk,
-			        cufftComplex *d_gridX,
-			        cufftComplex *d_gridY,
-			        cufftComplex *d_gridZ,
-			        cufftHandle plan,
-			        const int Nx,
-			        const int Ny,
-			        const int Nz,
-			        const unsigned int *d_n_neigh,
-                                const unsigned int *d_nlist,
-                                const unsigned int *d_headlist,
-			        int& m_Lanczos,
-			        const unsigned int N_total,
-			        unsigned int NxNyNz,
-			        dim3 grid,
-			        dim3 threads,
-			        int gridBlockSize,
-			        int gridNBlock,
-				Scalar3 gridh,
-			        Scalar cheb_error,
-				Scalar self 
-				);
+void gpu_stokes_CombinedMobilityBrownian_wrap(
+	Scalar4 *d_pos,
+	Scalar4 *d_net_force,
+	unsigned int *d_group_members,
+	int *d_group_membership,
+	unsigned int group_size,
+	const BoxDim &box,
+	Scalar dt,
+	Scalar4 *d_vel,
+	const Scalar T,
+	const unsigned int timestep,
+	const unsigned int seed,
+	Scalar xi,
+	Scalar eta,
+	Scalar P,
+	Scalar ewald_cut,
+	Scalar ewald_dr,
+	int ewald_n,
+	Scalar4 *d_ewaldC1,
+	Scalar4 *d_gridk,
+	cufftComplex *d_gridX,
+	cufftComplex *d_gridY,
+	cufftComplex *d_gridZ,
+	cufftHandle plan,
+	const int Nx,
+	const int Ny,
+	const int Nz,
+	const unsigned int *d_n_neigh,
+	const unsigned int *d_nlist,
+	const unsigned int *d_headlist,
+	int &m_Lanczos,
+	const unsigned int N_total,
+	unsigned int NxNyNz,
+	dim3 grid,
+	dim3 threads,
+	int gridBlockSize,
+	int gridNBlock,
+	Scalar3 gridh,
+	Scalar cheb_error,
+	Scalar *d_self,
+	Scalar *d_diam,
+	int n_types);
 
 #endif
