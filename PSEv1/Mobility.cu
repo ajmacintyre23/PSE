@@ -180,6 +180,11 @@ __global__ void gpu_stokes_Spread_kernel(
 	Scalar3 pos = pos_shared[0];
 	Scalar3 force = force_shared[0];
 
+	// Per-particle P-value: P_i = P0 + 2*ceil(a_i/h)
+	Scalar hmin = fminf(gridh.x, fminf(gridh.y, gridh.z));
+	int Pi = P + 2 * int(ceilf(rad / hmin));
+	Pi = min(Pi, min(Nx, min(Ny, Nz)));
+
 	// Fractional position within box
 	Scalar3 pos_frac = box.makeFraction(pos);
 
@@ -196,12 +201,12 @@ __global__ void gpu_stokes_Spread_kernel(
 	// (Required in case support size is larger than grid dimension,
 	//  but in most cases, should have n.x = n.y = n.z = 1 )
 	int3 n, t;
-	n.x = (P + blockDim.x - 1) / blockDim.x; // ceiling
-	n.y = (P + blockDim.y - 1) / blockDim.y;
-	n.z = (P + blockDim.z - 1) / blockDim.z;
+	n.x = (Pi + blockDim.x - 1) / blockDim.x; // ceiling
+	n.y = (Pi + blockDim.y - 1) / blockDim.y;
+	n.z = (Pi + blockDim.z - 1) / blockDim.z;
 
 	// Grid point associated with current thread
-	int Pd2 = P / 2; // integer division does floor
+	int Pd2 = Pi / 2; // integer division does floor
 
 	for (int ii = 0; ii < n.x; ++ii)
 	{
@@ -218,15 +223,16 @@ __global__ void gpu_stokes_Spread_kernel(
 
 				t.z = threadIdx.z + kk * blockDim.z;
 
-				if ((t.x < P) && (t.y < P) && (t.z < P))
+				if ((t.x < Pi) && (t.y < Pi) && (t.z < Pi))
 				{
 
 					// x,y,z indices for current thread
 					//
 					// Arithmetic with P makes sure distribution is centered on the particle
-					int x_inp = x + t.x - Pd2 + 1 - (P % 2) * (pos_frac.x - Scalar(x) < 0.5);
-					int y_inp = y + t.y - Pd2 + 1 - (P % 2) * (pos_frac.y - Scalar(y) < 0.5);
-					int z_inp = z + t.z - Pd2 + 1 - (P % 2) * (pos_frac.z - Scalar(z) < 0.5);
+					// Changed so that Pi is referenced since the P value is different for each particle i
+					int x_inp = x + t.x - Pd2 + 1 - (Pi % 2) * (pos_frac.x - Scalar(x) < 0.5);
+					int y_inp = y + t.y - Pd2 + 1 - (Pi % 2) * (pos_frac.y - Scalar(y) < 0.5);
+					int z_inp = z + t.z - Pd2 + 1 - (Pi % 2) * (pos_frac.z - Scalar(z) < 0.5);
 
 					// Periodic wrapping of grid point
 					x_inp = (x_inp < 0) ? x_inp + Nx : ((x_inp > Nx - 1) ? x_inp - Nx : x_inp);
@@ -393,6 +399,11 @@ __global__ void gpu_stokes_Contract_kernel(
 	// Retrieve position from shared memory
 	Scalar rad = rad_shared;
 	Scalar3 pos = pos_shared[0];
+	
+	// Per-particle P-value: P_i = P0 + 2*ceil(a_i/h)
+	Scalar hmin = fminf(gridh.x, fminf(gridh.y, gridh.z));
+	int Pi = P + 2 * int(ceilf(rad / hmin));
+	Pi = min(Pi, min(Nx, min(Ny, Nz)));
 
 	// Fractional position within box
 	Scalar3 pos_frac = box.makeFraction(pos);
@@ -409,12 +420,12 @@ __global__ void gpu_stokes_Contract_kernel(
 	// (Required in case support size is larger than grid dimension,
 	//  but in most cases, should have n.x = n.y = n.z = 1 )
 	int3 n, t;
-	n.x = (P + blockDim.x - 1) / blockDim.x; // ceiling
-	n.y = (P + blockDim.y - 1) / blockDim.y;
-	n.z = (P + blockDim.z - 1) / blockDim.z;
+	n.x = (Pi + blockDim.x - 1) / blockDim.x; // ceiling
+	n.y = (Pi + blockDim.y - 1) / blockDim.y;
+	n.z = (Pi + blockDim.z - 1) / blockDim.z;
 
 	// Grid point associated with current thread
-	int Pd2 = P / 2; // integer division does floor
+	int Pd2 = Pi / 2; // integer division does floor
 
 	for (int ii = 0; ii < n.x; ++ii)
 	{
@@ -431,15 +442,16 @@ __global__ void gpu_stokes_Contract_kernel(
 
 				t.z = threadIdx.z + kk * blockDim.z;
 
-				if ((t.x < P) && (t.y < P) && (t.z < P))
+				if ((t.x < Pi) && (t.y < Pi) && (t.z < Pi))
 				{
 
 					// x,y,z indices for current thread
 					//
-					// Arithmetic with P makes sure distribution is centered on the particle
-					int x_inp = x + t.x - Pd2 + 1 - (P % 2) * (pos_frac.x - Scalar(x) < 0.5);
-					int y_inp = y + t.y - Pd2 + 1 - (P % 2) * (pos_frac.y - Scalar(y) < 0.5);
-					int z_inp = z + t.z - Pd2 + 1 - (P % 2) * (pos_frac.z - Scalar(z) < 0.5);
+					// Arithmetic with P makes sure distribution is centered on the particle. 
+					// Changed so that Pi is referenced since the P value is different for each particle i
+					int x_inp = x + t.x - Pd2 + 1 - (Pi % 2) * (pos_frac.x - Scalar(x) < 0.5);
+					int y_inp = y + t.y - Pd2 + 1 - (Pi % 2) * (pos_frac.y - Scalar(y) < 0.5);
+					int z_inp = z + t.z - Pd2 + 1 - (Pi % 2) * (pos_frac.z - Scalar(z) < 0.5);
 
 					// Periodic wrapping of grid point
 					x_inp = (x_inp < 0) ? x_inp + Nx : ((x_inp > Nx - 1) ? x_inp - Nx : x_inp);
@@ -562,7 +574,7 @@ void gpu_stokes_Mwave_wrap(
 
 	// Spreading and contraction stuff
 	dim3 Cgrid(group_size, 1, 1);
-	int B = (P < 10) ? P : 10;
+	int B = 8;
 	dim3 Cthreads(B, B, B);
 
 	Scalar quadW = gridh.x * gridh.y * gridh.z;
@@ -659,7 +671,7 @@ __global__ void gpu_stokes_Mreal_kernel(
 
 		// Self contribution
 		Scalar4 F = d_net_force[idx];
-		Scalar self_i = d_self[idx];
+		Scalar self_i = d_self[ti];
 		u = make_scalar4(self_i * F.x, self_i * F.y, self_i * F.z, 0.0);
 		// printf("Mreal: d_net_force[idx=%d] = (%f, %f, %f) \n", idx, d_net_force[idx].x, d_net_force[idx].y, d_net_force[idx].z);
 		// printf("self = %f \n", self);

@@ -136,7 +136,8 @@ void Stokes::setParams()
 	Scalar a_max = 0.0;
 	for (unsigned int i = 0; i < m_pdata->getN(); i++)
 		a_max = std::max(a_max, h_diam.data[i] / 2.0f);
-	m_ewald_cut = sqrtf(-logf(m_error)) / m_xi + 2.0 * a_max; // real-space cutoff: Ewald decay length + contact distance
+	Scalar rcut0 = sqrtf(-logf(m_error)) / m_xi;  // cutoff for surface cushin
+	m_ewald_cut = rcut0 + 2.0 * a_max;            // max cutoff, length of table
 
 	// Number of grid points
 	int kmax = int(2.0 * sqrtf(-logf(m_error)) * m_xi) + 1;
@@ -257,15 +258,6 @@ void Stokes::setParams()
 	Scalar xisq = m_xi * m_xi;
 	m_eta = (2.0 * w / m_gaussm) * (2.0 * w / m_gaussm) * (xisq); // Gaussian splitting parameter
 
-	// Polydisperse: widen support so the shell kernel (radius a_max) fits on the grid
-	m_gaussP += 2 * int(ceilf(a_max / m_gridh.x));
-	if (m_gaussP > m_Nx)
-		m_gaussP = m_Nx;
-	if (m_gaussP > m_Ny)
-		m_gaussP = m_Ny;
-	if (m_gaussP > m_Nz)
-		m_gaussP = m_Nz;
-
 	// Print summary to command line output
 	printf("\n");
 	printf("\n");
@@ -346,19 +338,7 @@ void Stokes::setParams()
 
 	double dr = 0.0010000000000000;
 
-	// Assume all particles have radius of 1.0
-	Scalar pi12 = 1.77245385091;
-	GPUArray<Scalar> n_self(m_pdata->getN(), m_exec_conf);
-	m_self.swap(n_self);
-	ArrayHandle<Scalar> h_self(m_self, access_location::host, access_mode::readwrite);
-
-	for (unsigned int i = 0; i < m_pdata->getN(); i++)
-	{
-		double ai = h_diam.data[i] / 2.0;
-		double axi = ai * double(m_xi);
-		double axi2 = axi * axi;
-		h_self.data[i] = (1. + 4. * pi12 * axi * erfc(2. * axi) - exp(-4. * axi2)) / (4. * pi12 * axi * ai);
-	}
+	Scalar pi12 = 1.77245385091; // sqrt(pi)
 
 	// Get per-type radii for polydisperse table construction
 	int n_types = m_pdata->getNTypes();
@@ -370,18 +350,46 @@ void Stokes::setParams()
 		int type = __scalar_as_int(h_pos.data[i].w);
 		type_radii[type] = h_diam.data[i] / 2.0;
 	}
+	
+	// Print per-type support P_i and per-pair real-space cutoff
+	{
+		Scalar hmin = fminf(m_gridh.x, fminf(m_gridh.y, m_gridh.z));
+		int Pcap = std::min(m_Nx, std::min(m_Ny, m_Nz));
+		m_exec_conf->msg->notice(2) << "--- Per-type support: P_i = P0 + 2 ceil(a_i/h),  P0 = " << m_gaussP << ",  h = " << hmin << " ---" << endl;
+		for (int t = 0; t < n_types; t++)
+		{
+			int Pi = std::min(m_gaussP + 2 * int(ceilf(type_radii[t] / hmin)), Pcap);
+			m_exec_conf->msg->notice(2) << "  " << m_pdata->getNameByType(t) << "   a = " << type_radii[t] << "   P = " << Pi << endl;
+		}
+		m_exec_conf->msg->notice(2) << "--- Per-pair cutoff: r_cut = r_cut0 + a_i + a_j,  r_cut0 = " << rcut0 << " ---" << endl;
+		for (int ti = 0; ti < n_types; ti++)
+			for (int tj = ti; tj < n_types; tj++)
+				m_exec_conf->msg->notice(2) << "  " << m_pdata->getNameByType(ti) << "-" << m_pdata->getNameByType(tj)
+											<< "   a_i = " << type_radii[ti] << "   a_j = " << type_radii[tj]
+											<< "   r_cut = " << rcut0 + type_radii[ti] + type_radii[tj] << endl;
+	}
+
+	// Self mobility per particle type (types survive HOOMD's particle sorting; array indices don't)
+	GPUArray<Scalar> n_self(n_types, m_exec_conf);
+	m_self.swap(n_self);
+	ArrayHandle<Scalar> h_self(m_self, access_location::host, access_mode::readwrite);
+	for (int t = 0; t < n_types; t++)
+	{
+		double ai = type_radii[t];
+		double axi = ai * double(m_xi);
+		h_self.data[t] = (1. + 4. * pi12 * axi * erfc(2. * axi) - exp(-4. * axi * axi)) / (4. * pi12 * axi * ai);
+	}
 
 	// Allocate storage for real space Ewald table
 	int nR = m_ewald_n + 1; // number of entries in ewald table
-	GPUArray<Scalar4> n_ewaldC1(nR, m_exec_conf);
+	GPUArray<Scalar4> n_ewaldC1(n_types * n_types * nR, m_exec_conf);
 	m_ewaldC1.swap(n_ewaldC1);
 	ArrayHandle<Scalar4> h_ewaldC1(m_ewaldC1, access_location::host, access_mode::readwrite);
 
 	// Functions are complicated so calculation should be done in double precision, then truncated to single precision
 	// in order to ensure accurate evaluation
 	double xi = m_xi;
-	double Pi = 3.141592653589793;
-	double a = aa;
+	double PI12 = 1.77245385091; // sqrt(pi)
 
 	// Fill table for each particle type pair (ti, tj)
 	for (int ti = 0; ti < n_types; ti++)
@@ -437,6 +445,13 @@ void Stokes::setParams()
 					rr = ((ai / aj) + (ai * (pow(ai, 2) + pow(aj, 2) - 3 * pow(r, 2))) / (2 * pow(r, 3)) + (-(4 * r - c1) * (2 * pow(xi, 2) * pow(c1, 2) - 1) * exp(-pow(c1, 2) * pow(xi, 2)) + (4 * r - c2) * (2 * pow(xi, 2) * pow(c2, 2) - 1) * exp(-pow(c2, 2) * pow(xi, 2)) + (4 * r - c3) * (2 * pow(xi, 2) * pow(c3, 2) - 1) * exp(-pow(c3, 2) * pow(xi, 2)) - (4 * r - c4) * (2 * pow(xi, 2) * pow(c4, 2) - 1) * exp(-pow(c4, 2) * pow(xi, 2))) / (64 * PI12 * aj * pow(r, 3) * pow(xi, 3)) + ((4 * pow(xi, 4) * pow(c1, 3) * (4 * r - c1) + 3) * erfc(c1 * xi) - (4 * pow(xi, 4) * pow(c2, 3) * (4 * r - c2) + 3) * erfc(c2 * xi) - (4 * pow(xi, 4) * pow(c3, 3) * (4 * r - c3) + 3) * erfc(c3 * xi) + (4 * pow(xi, 4) * pow(c4, 3) * (4 * r - c4) + 3) * erfc(c4 * xi)) / (128 * aj * pow(r, 3) * pow(xi, 4))) / ai;
 				}
 
+				// Per-pair cutoff: r_cut = rcut0 + ai + aj
+				if (r > double(rcut0) + ai + aj)
+				{
+					Imrr = 0.0;
+					rr = 0.0;
+				}
+
 				// Save values to table
 				h_ewaldC1.data[pair_offset + kk].x = Scalar(Imrr); // UF1
 				h_ewaldC1.data[pair_offset + kk].y = Scalar(rr);   // UF2
@@ -452,6 +467,13 @@ void Stokes::setParams()
 
 		} // tj loop
 	} // ti loop
+	
+	//// Initialization for needed arrays
+
+	// membership list
+	m_Ntotal = m_pdata->getN();
+	GPUArray<int> n_group_membership(m_Ntotal, m_exec_conf);
+	m_group_membership.swap(n_group_membership);
 }
 
 /*! \param timestep Current time step

@@ -869,7 +869,7 @@ void gpu_stokes_CombinedMobilityBrownian_wrap(
 
 	// Spreading and contraction grid information and parameters
 	dim3 Cgrid(group_size, 1, 1);
-	int B = (P < 10) ? P : 10;
+	int B = 8;
 	dim3 Cthreads(B, B, B);
 
 	Scalar quadW = gridh.x * gridh.y * gridh.z;

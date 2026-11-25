@@ -1,0 +1,83 @@
+________________________________________________________________________________
+WARNING: This module (intel/oneAPI/2021.1.1) is deprecated.
+The default intel/oneAPI module will change to intel/oneAPI/2026.0.0 
+during June 2026 maintenance.
+________________________________________________________________________________
+-- The C compiler identification is GNU 10.2.0
+-- The CXX compiler identification is GNU 10.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /sw/gcc/10.2.0/bin/gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /sw/gcc/10.2.0/bin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Deprecation Warning at CMakeLists.txt:2 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Found PythonInterp: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/bin/python (found version "3.9.20") 
+-- Python output: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd
+-- Looking for a HOOMD installation at /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd
+-- Found hoomd installation at /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd
+-- Found HOOMD include directory: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd/include
+-- Found PythonInterp: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/bin/python (found suitable version "3.9.20", minimum required is "3") 
+-- Found PythonLibs: /mmfs1/sw/contrib/ssmc-src/miniconda/3.9/lib/libpython3.9.so
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Found CUDA: /sw/cuda/11.8.0 (found suitable version "11.8", minimum required is "8.0") 
+-- Found Thrust: /sw/cuda/11.8.0/include (found suitable version "1.15.1", minimum required is "1.5.0") 
+-- Found cusolver: /sw/cuda/11.8.0/lib64/libcusolver.so
+-- Setting build type to 'Release' as none was specified.
+-- Install plugin to: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd
+-- Found MKL: /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/libmkl_intel_ilp64.so;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/libmkl_sequential.so;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/libmkl_core.so  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build
+[  6%] Copy hoomd/PSEv1/__init__.py
+[ 13%] Copy hoomd/PSEv1/integrate.py
+[ 20%] Copy hoomd/PSEv1/shear_function.py
+[ 26%] Copy hoomd/PSEv1/variant.py
+[ 26%] Built target copy_PSEv1
+[ 33%] Building NVCC (Device) object PSEv1/CMakeFiles/cuda_compile_1.dir/cuda_compile_1_generated_Stokes.cu.o
+nvcc warning : The 'compute_35', 'compute_37', 'sm_35', and 'sm_37' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+nvcc warning : The 'compute_35', 'compute_37', 'sm_35', and 'sm_37' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+[ 40%] Building NVCC (Device) object PSEv1/CMakeFiles/cuda_compile_1.dir/cuda_compile_1_generated_Brownian.cu.o
+nvcc warning : The 'compute_35', 'compute_37', 'sm_35', and 'sm_37' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+nvcc warning : The 'compute_35', 'compute_37', 'sm_35', and 'sm_37' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+[ 46%] Building NVCC (Device) object PSEv1/CMakeFiles/cuda_compile_1.dir/cuda_compile_1_generated_Helper.cu.o
+nvcc warning : The 'compute_35', 'compute_37', 'sm_35', and 'sm_37' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+nvcc warning : The 'compute_35', 'compute_37', 'sm_35', and 'sm_37' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+[ 53%] Building NVCC (Device) object PSEv1/CMakeFiles/cuda_compile_1.dir/cuda_compile_1_generated_Mobility.cu.o
+nvcc warning : The 'compute_35', 'compute_37', 'sm_35', and 'sm_37' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+nvcc warning : The 'compute_35', 'compute_37', 'sm_35', and 'sm_37' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+[ 60%] Building CXX object PSEv1/CMakeFiles/_PSEv1.dir/module.cc.o
+[ 66%] Building CXX object PSEv1/CMakeFiles/_PSEv1.dir/Stokes.cc.o
+[ 73%] Building CXX object PSEv1/CMakeFiles/_PSEv1.dir/ShearFunction.cc.o
+[ 80%] Building CXX object PSEv1/CMakeFiles/_PSEv1.dir/ShearFunctionWrap.cc.o
+[ 86%] Building CXX object PSEv1/CMakeFiles/_PSEv1.dir/SpecificShearFunction.cc.o
+[ 93%] Building CXX object PSEv1/CMakeFiles/_PSEv1.dir/VariantShearFunction.cc.o
+[100%] Linking CXX shared library _PSEv1.cpython-39-x86_64-linux-gnu.so
+[100%] Built target _PSEv1
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd/PSEv1/_PSEv1.cpython-39-x86_64-linux-gnu.so
+-- Set runtime path of "/gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd/PSEv1/_PSEv1.cpython-39-x86_64-linux-gnu.so" to "$ORIGIN/..:$ORIGIN"
+-- Up-to-date: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd/PSEv1/__init__.py
+-- Installing: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd/PSEv1/integrate.py
+-- Up-to-date: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd/PSEv1/shear_function.py
+-- Up-to-date: /gscratch/zeelab/ajmac/installations/polydisperse/hoomd/hoomd-venv/lib/python3.9/site-packages/hoomd/PSEv1/variant.py

@@ -1,0 +1,615 @@
+The system is: Linux - 4.18.0-553.147.1.el8_10.x86_64 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /sw/gcc/10.2.0/bin/gcc 
+Build flags: -march=native
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/3.20.0-rc2/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /sw/gcc/10.2.0/bin/g++ 
+Build flags: -march=native
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/3.20.0-rc2/CompilerIdCXX/a.out"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_19396/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_19396.dir/build.make CMakeFiles/cmTC_19396.dir/build
+gmake[1]: Entering directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o
+/sw/gcc/10.2.0/bin/gcc   -march=native    -v -o CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o -c /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/sw/gcc/10.2.0/bin/gcc
+Target: x86_64-pc-linux-gnu
+Configured with: ../gcc-10.2.0/configure --prefix=/sw/gcc/10.2.0 --enable-languages=all --enable-multilib
+Thread model: posix
+Supported LTO compression algorithms: zlib
+gcc version 10.2.0 (GCC) 
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o' '-c'
+ /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/cc1 -quiet -v -iprefix /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/ /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CMakeCCompilerABI.c -march=cascadelake -mmmx -mno-3dnow -msse -msse2 -msse3 -mssse3 -mno-sse4a -mcx16 -msahf -mmovbe -maes -mno-sha -mpclmul -mpopcnt -mabm -mno-lwp -mfma -mno-fma4 -mno-xop -mbmi -mno-sgx -mbmi2 -mno-pconfig -mno-wbnoinvd -mno-tbm -mavx -mavx2 -msse4.2 -msse4.1 -mlzcnt -mno-rtm -mno-hle -mrdrnd -mf16c -mfsgsbase -mrdseed -mprfchw -madx -mfxsr -mxsave -mxsaveopt -mavx512f -mno-avx512er -mavx512cd -mno-avx512pf -mno-prefetchwt1 -mclflushopt -mxsavec -mxsaves -mavx512dq -mavx512bw -mavx512vl -mno-avx512ifma -mno-avx512vbmi -mno-avx5124fmaps -mno-avx5124vnniw -mclwb -mno-mwaitx -mno-clzero -mpku -mno-rdpid -mno-gfni -mno-shstk -mno-avx512vbmi2 -mavx512vnni -mno-vaes -mno-vpclmulqdq -mno-avx512bitalg -mno-avx512vpopcntdq -mno-movdiri -mno-movdir64b -mno-waitpkg -mno-cldemote -mno-ptwrite -mno-avx512bf16 -mno-enqcmd -mno-avx512vp2intersect --param l1-cache-size=32 --param l1-cache-line-size=64 --param l2-cache-size=28160 -mtune=cascadelake -quiet -dumpbase CMakeCCompilerABI.c -auxbase-strip CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o -version -o /gscratch/zeelab/ajmac/tmp/cct0GsW8.s
+GNU C17 (GCC) version 10.2.0 (x86_64-pc-linux-gnu)
+	compiled by GNU C version 10.2.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../x86_64-pc-linux-gnu/include"
+ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include"
+ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed"
+ignoring nonexistent directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../x86_64-pc-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed
+ /usr/local/include
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../include
+ /usr/include
+End of search list.
+GNU C17 (GCC) version 10.2.0 (x86_64-pc-linux-gnu)
+	compiled by GNU C version 10.2.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 7256c735d2d536d5fe4af919e96f91aa
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o' '-c'
+ as -v --64 -o CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o /gscratch/zeelab/ajmac/tmp/cct0GsW8.s
+GNU assembler version 2.30 (x86_64-redhat-linux) using BFD version version 2.30-128.el8_10
+COMPILER_PATH=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/
+LIBRARY_PATH=/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o' '-c'
+Linking C executable cmTC_19396
+/mmfs1/sw/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_19396.dir/link.txt --verbose=1
+/sw/gcc/10.2.0/bin/gcc -march=native   -v -rdynamic CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o -o cmTC_19396 
+Using built-in specs.
+COLLECT_GCC=/sw/gcc/10.2.0/bin/gcc
+COLLECT_LTO_WRAPPER=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper
+Target: x86_64-pc-linux-gnu
+Configured with: ../gcc-10.2.0/configure --prefix=/sw/gcc/10.2.0 --enable-languages=all --enable-multilib
+Thread model: posix
+Supported LTO compression algorithms: zlib
+gcc version 10.2.0 (GCC) 
+COMPILER_PATH=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/
+LIBRARY_PATH=/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-rdynamic' '-o' 'cmTC_19396'
+ /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/collect2 -plugin /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/liblto_plugin.so -plugin-opt=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper -plugin-opt=-fresolution=/gscratch/zeelab/ajmac/tmp/ccdIqk7o.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_19396 /lib/../lib64/crt1.o /lib/../lib64/crti.o /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtbegin.o -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0 -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../.. CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtend.o /lib/../lib64/crtn.o
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-rdynamic' '-o' 'cmTC_19396'
+gmake[1]: Leaving directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed]
+    add: [/usr/local/include]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../include]
+    add: [/usr/include]
+  end of search list found
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include] ==> [/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed] ==> [/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed]
+  collapse include dir [/usr/local/include] ==> [/usr/local/include]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../include] ==> [/mmfs1/sw/gcc/10.2.0/include]
+  collapse include dir [/usr/include] ==> [/usr/include]
+  implicit include dirs: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include;/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include;/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed;/usr/local/include;/mmfs1/sw/gcc/10.2.0/include;/usr/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_19396/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_19396.dir/build.make CMakeFiles/cmTC_19396.dir/build]
+  ignore line: [gmake[1]: Entering directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/sw/gcc/10.2.0/bin/gcc   -march=native    -v -o CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o -c /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/sw/gcc/10.2.0/bin/gcc]
+  ignore line: [Target: x86_64-pc-linux-gnu]
+  ignore line: [Configured with: ../gcc-10.2.0/configure --prefix=/sw/gcc/10.2.0 --enable-languages=all --enable-multilib]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib]
+  ignore line: [gcc version 10.2.0 (GCC) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o' '-c']
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/cc1 -quiet -v -iprefix /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/ /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CMakeCCompilerABI.c -march=cascadelake -mmmx -mno-3dnow -msse -msse2 -msse3 -mssse3 -mno-sse4a -mcx16 -msahf -mmovbe -maes -mno-sha -mpclmul -mpopcnt -mabm -mno-lwp -mfma -mno-fma4 -mno-xop -mbmi -mno-sgx -mbmi2 -mno-pconfig -mno-wbnoinvd -mno-tbm -mavx -mavx2 -msse4.2 -msse4.1 -mlzcnt -mno-rtm -mno-hle -mrdrnd -mf16c -mfsgsbase -mrdseed -mprfchw -madx -mfxsr -mxsave -mxsaveopt -mavx512f -mno-avx512er -mavx512cd -mno-avx512pf -mno-prefetchwt1 -mclflushopt -mxsavec -mxsaves -mavx512dq -mavx512bw -mavx512vl -mno-avx512ifma -mno-avx512vbmi -mno-avx5124fmaps -mno-avx5124vnniw -mclwb -mno-mwaitx -mno-clzero -mpku -mno-rdpid -mno-gfni -mno-shstk -mno-avx512vbmi2 -mavx512vnni -mno-vaes -mno-vpclmulqdq -mno-avx512bitalg -mno-avx512vpopcntdq -mno-movdiri -mno-movdir64b -mno-waitpkg -mno-cldemote -mno-ptwrite -mno-avx512bf16 -mno-enqcmd -mno-avx512vp2intersect --param l1-cache-size=32 --param l1-cache-line-size=64 --param l2-cache-size=28160 -mtune=cascadelake -quiet -dumpbase CMakeCCompilerABI.c -auxbase-strip CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o -version -o /gscratch/zeelab/ajmac/tmp/cct0GsW8.s]
+  ignore line: [GNU C17 (GCC) version 10.2.0 (x86_64-pc-linux-gnu)]
+  ignore line: [	compiled by GNU C version 10.2.0  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring nonexistent directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../x86_64-pc-linux-gnu/include"]
+  ignore line: [ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include"]
+  ignore line: [ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed"]
+  ignore line: [ignoring nonexistent directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../x86_64-pc-linux-gnu/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed]
+  ignore line: [ /usr/local/include]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../include]
+  ignore line: [ /usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C17 (GCC) version 10.2.0 (x86_64-pc-linux-gnu)]
+  ignore line: [	compiled by GNU C version 10.2.0  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 7256c735d2d536d5fe4af919e96f91aa]
+  ignore line: [COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o' '-c']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o /gscratch/zeelab/ajmac/tmp/cct0GsW8.s]
+  ignore line: [GNU assembler version 2.30 (x86_64-redhat-linux) using BFD version version 2.30-128.el8_10]
+  ignore line: [COMPILER_PATH=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/]
+  ignore line: [LIBRARY_PATH=/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o' '-c']
+  ignore line: [Linking C executable cmTC_19396]
+  ignore line: [/mmfs1/sw/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_19396.dir/link.txt --verbose=1]
+  ignore line: [/sw/gcc/10.2.0/bin/gcc -march=native   -v -rdynamic CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o -o cmTC_19396 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/sw/gcc/10.2.0/bin/gcc]
+  ignore line: [COLLECT_LTO_WRAPPER=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper]
+  ignore line: [Target: x86_64-pc-linux-gnu]
+  ignore line: [Configured with: ../gcc-10.2.0/configure --prefix=/sw/gcc/10.2.0 --enable-languages=all --enable-multilib]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib]
+  ignore line: [gcc version 10.2.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/]
+  ignore line: [LIBRARY_PATH=/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-march=native' '-v' '-rdynamic' '-o' 'cmTC_19396']
+  link line: [ /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/collect2 -plugin /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/liblto_plugin.so -plugin-opt=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper -plugin-opt=-fresolution=/gscratch/zeelab/ajmac/tmp/ccdIqk7o.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_19396 /lib/../lib64/crt1.o /lib/../lib64/crti.o /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtbegin.o -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0 -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../.. CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtend.o /lib/../lib64/crtn.o]
+    arg [/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/gscratch/zeelab/ajmac/tmp/ccdIqk7o.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_19396] ==> ignore
+    arg [/lib/../lib64/crt1.o] ==> ignore
+    arg [/lib/../lib64/crti.o] ==> ignore
+    arg [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtbegin.o] ==> ignore
+    arg [-L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0] ==> dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0]
+    arg [-L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc] ==> dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc]
+    arg [-L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64] ==> dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64]
+    arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+    arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib]
+    arg [-L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../..] ==> dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../..]
+    arg [CMakeFiles/cmTC_19396.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--push-state] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--pop-state] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--push-state] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--pop-state] ==> ignore
+    arg [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtend.o] ==> ignore
+    arg [/lib/../lib64/crtn.o] ==> ignore
+  collapse library dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0] ==> [/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0]
+  collapse library dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc] ==> [/mmfs1/sw/gcc/10.2.0/lib/gcc]
+  collapse library dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64] ==> [/mmfs1/sw/gcc/10.2.0/lib64]
+  collapse library dir [/lib/../lib64] ==> [/lib64]
+  collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/lib/intel64/gcc4.8]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/libfabric/lib]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/lib/release]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/lib]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib]
+  collapse library dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../..] ==> [/mmfs1/sw/gcc/10.2.0/lib]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit dirs: [/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0;/mmfs1/sw/gcc/10.2.0/lib/gcc;/mmfs1/sw/gcc/10.2.0/lib64;/lib64;/usr/lib64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/lib/intel64/gcc4.8;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/libfabric/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/lib/release;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib;/mmfs1/sw/gcc/10.2.0/lib]
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_24add/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_24add.dir/build.make CMakeFiles/cmTC_24add.dir/build
+gmake[1]: Entering directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o
+/sw/gcc/10.2.0/bin/g++   -march=native    -v -o CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o -c /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/sw/gcc/10.2.0/bin/g++
+Target: x86_64-pc-linux-gnu
+Configured with: ../gcc-10.2.0/configure --prefix=/sw/gcc/10.2.0 --enable-languages=all --enable-multilib
+Thread model: posix
+Supported LTO compression algorithms: zlib
+gcc version 10.2.0 (GCC) 
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'
+ /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/cc1plus -quiet -v -iprefix /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/ -D_GNU_SOURCE /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CMakeCXXCompilerABI.cpp -march=cascadelake -mmmx -mno-3dnow -msse -msse2 -msse3 -mssse3 -mno-sse4a -mcx16 -msahf -mmovbe -maes -mno-sha -mpclmul -mpopcnt -mabm -mno-lwp -mfma -mno-fma4 -mno-xop -mbmi -mno-sgx -mbmi2 -mno-pconfig -mno-wbnoinvd -mno-tbm -mavx -mavx2 -msse4.2 -msse4.1 -mlzcnt -mno-rtm -mno-hle -mrdrnd -mf16c -mfsgsbase -mrdseed -mprfchw -madx -mfxsr -mxsave -mxsaveopt -mavx512f -mno-avx512er -mavx512cd -mno-avx512pf -mno-prefetchwt1 -mclflushopt -mxsavec -mxsaves -mavx512dq -mavx512bw -mavx512vl -mno-avx512ifma -mno-avx512vbmi -mno-avx5124fmaps -mno-avx5124vnniw -mclwb -mno-mwaitx -mno-clzero -mpku -mno-rdpid -mno-gfni -mno-shstk -mno-avx512vbmi2 -mavx512vnni -mno-vaes -mno-vpclmulqdq -mno-avx512bitalg -mno-avx512vpopcntdq -mno-movdiri -mno-movdir64b -mno-waitpkg -mno-cldemote -mno-ptwrite -mno-avx512bf16 -mno-enqcmd -mno-avx512vp2intersect --param l1-cache-size=32 --param l1-cache-line-size=64 --param l2-cache-size=28160 -mtune=cascadelake -quiet -dumpbase CMakeCXXCompilerABI.cpp -auxbase-strip CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o -version -o /gscratch/zeelab/ajmac/tmp/ccjfAFHm.s
+GNU C++14 (GCC) version 10.2.0 (x86_64-pc-linux-gnu)
+	compiled by GNU C version 10.2.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../x86_64-pc-linux-gnu/include"
+ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0"
+ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu"
+ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward"
+ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include"
+ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed"
+ignoring nonexistent directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../x86_64-pc-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include
+ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/include
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed
+ /usr/local/include
+ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../include
+ /usr/include
+End of search list.
+GNU C++14 (GCC) version 10.2.0 (x86_64-pc-linux-gnu)
+	compiled by GNU C version 10.2.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 2b59af89495bd8df1c28d9f1c8326821
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'
+ as -v --64 -o CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o /gscratch/zeelab/ajmac/tmp/ccjfAFHm.s
+GNU assembler version 2.30 (x86_64-redhat-linux) using BFD version version 2.30-128.el8_10
+COMPILER_PATH=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/
+LIBRARY_PATH=/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc'
+Linking CXX executable cmTC_24add
+/mmfs1/sw/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_24add.dir/link.txt --verbose=1
+/sw/gcc/10.2.0/bin/g++ -march=native   -v -rdynamic CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_24add 
+Using built-in specs.
+COLLECT_GCC=/sw/gcc/10.2.0/bin/g++
+COLLECT_LTO_WRAPPER=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper
+Target: x86_64-pc-linux-gnu
+Configured with: ../gcc-10.2.0/configure --prefix=/sw/gcc/10.2.0 --enable-languages=all --enable-multilib
+Thread model: posix
+Supported LTO compression algorithms: zlib
+gcc version 10.2.0 (GCC) 
+COMPILER_PATH=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/
+LIBRARY_PATH=/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-rdynamic' '-o' 'cmTC_24add' '-shared-libgcc'
+ /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/collect2 -plugin /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/liblto_plugin.so -plugin-opt=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper -plugin-opt=-fresolution=/gscratch/zeelab/ajmac/tmp/ccL1xGLo.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_24add /lib/../lib64/crt1.o /lib/../lib64/crti.o /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtbegin.o -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0 -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../.. CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtend.o /lib/../lib64/crtn.o
+COLLECT_GCC_OPTIONS='-march=native' '-v' '-rdynamic' '-o' 'cmTC_24add' '-shared-libgcc'
+gmake[1]: Leaving directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include]
+    add: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/include]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed]
+    add: [/usr/local/include]
+    add: [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../include]
+    add: [/usr/include]
+  end of search list found
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/include] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/include]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0] ==> [/mmfs1/sw/gcc/10.2.0/include/c++/10.2.0]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu] ==> [/mmfs1/sw/gcc/10.2.0/include/c++/10.2.0/x86_64-pc-linux-gnu]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward] ==> [/mmfs1/sw/gcc/10.2.0/include/c++/10.2.0/backward]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include] ==> [/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed] ==> [/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed]
+  collapse include dir [/usr/local/include] ==> [/usr/local/include]
+  collapse include dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../include] ==> [/mmfs1/sw/gcc/10.2.0/include]
+  collapse include dir [/usr/include] ==> [/usr/include]
+  implicit include dirs: [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/include;/mmfs1/sw/gcc/10.2.0/include/c++/10.2.0;/mmfs1/sw/gcc/10.2.0/include/c++/10.2.0/x86_64-pc-linux-gnu;/mmfs1/sw/gcc/10.2.0/include/c++/10.2.0/backward;/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include;/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed;/usr/local/include;/mmfs1/sw/gcc/10.2.0/include;/usr/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_24add/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_24add.dir/build.make CMakeFiles/cmTC_24add.dir/build]
+  ignore line: [gmake[1]: Entering directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/sw/gcc/10.2.0/bin/g++   -march=native    -v -o CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o -c /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/sw/gcc/10.2.0/bin/g++]
+  ignore line: [Target: x86_64-pc-linux-gnu]
+  ignore line: [Configured with: ../gcc-10.2.0/configure --prefix=/sw/gcc/10.2.0 --enable-languages=all --enable-multilib]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib]
+  ignore line: [gcc version 10.2.0 (GCC) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc']
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/cc1plus -quiet -v -iprefix /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/ -D_GNU_SOURCE /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CMakeCXXCompilerABI.cpp -march=cascadelake -mmmx -mno-3dnow -msse -msse2 -msse3 -mssse3 -mno-sse4a -mcx16 -msahf -mmovbe -maes -mno-sha -mpclmul -mpopcnt -mabm -mno-lwp -mfma -mno-fma4 -mno-xop -mbmi -mno-sgx -mbmi2 -mno-pconfig -mno-wbnoinvd -mno-tbm -mavx -mavx2 -msse4.2 -msse4.1 -mlzcnt -mno-rtm -mno-hle -mrdrnd -mf16c -mfsgsbase -mrdseed -mprfchw -madx -mfxsr -mxsave -mxsaveopt -mavx512f -mno-avx512er -mavx512cd -mno-avx512pf -mno-prefetchwt1 -mclflushopt -mxsavec -mxsaves -mavx512dq -mavx512bw -mavx512vl -mno-avx512ifma -mno-avx512vbmi -mno-avx5124fmaps -mno-avx5124vnniw -mclwb -mno-mwaitx -mno-clzero -mpku -mno-rdpid -mno-gfni -mno-shstk -mno-avx512vbmi2 -mavx512vnni -mno-vaes -mno-vpclmulqdq -mno-avx512bitalg -mno-avx512vpopcntdq -mno-movdiri -mno-movdir64b -mno-waitpkg -mno-cldemote -mno-ptwrite -mno-avx512bf16 -mno-enqcmd -mno-avx512vp2intersect --param l1-cache-size=32 --param l1-cache-line-size=64 --param l2-cache-size=28160 -mtune=cascadelake -quiet -dumpbase CMakeCXXCompilerABI.cpp -auxbase-strip CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o -version -o /gscratch/zeelab/ajmac/tmp/ccjfAFHm.s]
+  ignore line: [GNU C++14 (GCC) version 10.2.0 (x86_64-pc-linux-gnu)]
+  ignore line: [	compiled by GNU C version 10.2.0  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring nonexistent directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../x86_64-pc-linux-gnu/include"]
+  ignore line: [ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0"]
+  ignore line: [ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu"]
+  ignore line: [ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward"]
+  ignore line: [ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include"]
+  ignore line: [ignoring duplicate directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed"]
+  ignore line: [ignoring nonexistent directory "/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../x86_64-pc-linux-gnu/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpl/2021.1.1/linux/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dev-utilities/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dpcpp-ct/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/include/cpu_gpu_dpcpp]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/include]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed]
+  ignore line: [ /usr/local/include]
+  ignore line: [ /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/../../include]
+  ignore line: [ /usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (GCC) version 10.2.0 (x86_64-pc-linux-gnu)]
+  ignore line: [	compiled by GNU C version 10.2.0  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 2b59af89495bd8df1c28d9f1c8326821]
+  ignore line: [COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o /gscratch/zeelab/ajmac/tmp/ccjfAFHm.s]
+  ignore line: [GNU assembler version 2.30 (x86_64-redhat-linux) using BFD version version 2.30-128.el8_10]
+  ignore line: [COMPILER_PATH=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/]
+  ignore line: [LIBRARY_PATH=/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-march=native' '-v' '-o' 'CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc']
+  ignore line: [Linking CXX executable cmTC_24add]
+  ignore line: [/mmfs1/sw/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_24add.dir/link.txt --verbose=1]
+  ignore line: [/sw/gcc/10.2.0/bin/g++ -march=native   -v -rdynamic CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_24add ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/sw/gcc/10.2.0/bin/g++]
+  ignore line: [COLLECT_LTO_WRAPPER=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper]
+  ignore line: [Target: x86_64-pc-linux-gnu]
+  ignore line: [Configured with: ../gcc-10.2.0/configure --prefix=/sw/gcc/10.2.0 --enable-languages=all --enable-multilib]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib]
+  ignore line: [gcc version 10.2.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/]
+  ignore line: [LIBRARY_PATH=/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp/:/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib/:/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-march=native' '-v' '-rdynamic' '-o' 'cmTC_24add' '-shared-libgcc']
+  link line: [ /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/collect2 -plugin /mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/liblto_plugin.so -plugin-opt=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper -plugin-opt=-fresolution=/gscratch/zeelab/ajmac/tmp/ccL1xGLo.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_24add /lib/../lib64/crt1.o /lib/../lib64/crti.o /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtbegin.o -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0 -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64 -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp -L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib -L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../.. CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtend.o /lib/../lib64/crtn.o]
+    arg [/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/mmfs1/sw/gcc/10.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/10.2.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/gscratch/zeelab/ajmac/tmp/ccL1xGLo.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_24add] ==> ignore
+    arg [/lib/../lib64/crt1.o] ==> ignore
+    arg [/lib/../lib64/crti.o] ==> ignore
+    arg [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtbegin.o] ==> ignore
+    arg [-L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0] ==> dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0]
+    arg [-L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc] ==> dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc]
+    arg [-L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64] ==> dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64]
+    arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+    arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp]
+    arg [-L/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib] ==> dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib]
+    arg [-L/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../..] ==> dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../..]
+    arg [CMakeFiles/cmTC_24add.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/crtend.o] ==> ignore
+    arg [/lib/../lib64/crtn.o] ==> ignore
+  collapse library dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0] ==> [/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0]
+  collapse library dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc] ==> [/mmfs1/sw/gcc/10.2.0/lib/gcc]
+  collapse library dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib64] ==> [/mmfs1/sw/gcc/10.2.0/lib64]
+  collapse library dir [/lib/../lib64] ==> [/lib64]
+  collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/env/../lib/intel64/gcc4.8] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/lib/intel64/gcc4.8]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//libfabric/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/libfabric/lib]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib/release] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/lib/release]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1//lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/lib]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp]
+  collapse library dir [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib] ==> [/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib]
+  collapse library dir [/mmfs1/sw/gcc/10.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../..] ==> [/mmfs1/sw/gcc/10.2.0/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit dirs: [/mmfs1/sw/gcc/10.2.0/lib/gcc/x86_64-pc-linux-gnu/10.2.0;/mmfs1/sw/gcc/10.2.0/lib/gcc;/mmfs1/sw/gcc/10.2.0/lib64;/lib64;/usr/lib64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/clck/2021.1.1/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/compiler/lib/intel64_lin;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/compiler/2021.1.1/linux/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mkl/latest/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/tbb/2021.1.1/lib/intel64/gcc4.8;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ippcp/2021.1.1/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dal/2021.1.1/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/libfabric/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/lib/release;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/mpi/2021.1.1/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ipp/2021.1.1/lib/intel64;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/dnnl/2021.1.1/cpu_dpcpp_gpu_dpcpp/lib;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/ccl/2021.1.1/lib/cpu_gpu_dpcpp;/mmfs1/sw/intel/oneAPI/2021.1.0.2659/vpl/2021.1.1/lib;/mmfs1/sw/gcc/10.2.0/lib]
+  implicit fwks: []
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_32e6d/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_32e6d.dir/build.make CMakeFiles/cmTC_32e6d.dir/build
+gmake[1]: Entering directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_32e6d.dir/CheckIncludeFile.c.o
+/sw/gcc/10.2.0/bin/gcc   -fPIC  -o CMakeFiles/cmTC_32e6d.dir/CheckIncludeFile.c.o -c /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_32e6d
+/mmfs1/sw/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_32e6d.dir/link.txt --verbose=1
+/sw/gcc/10.2.0/bin/gcc -fPIC  -rdynamic CMakeFiles/cmTC_32e6d.dir/CheckIncludeFile.c.o -o cmTC_32e6d 
+gmake[1]: Leaving directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_5b012/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5b012.dir/build.make CMakeFiles/cmTC_5b012.dir/build
+gmake[1]: Entering directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5b012.dir/CheckFunctionExists.c.o
+/sw/gcc/10.2.0/bin/gcc   -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create -o CMakeFiles/cmTC_5b012.dir/CheckFunctionExists.c.o -c /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CheckFunctionExists.c
+Linking C executable cmTC_5b012
+/mmfs1/sw/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5b012.dir/link.txt --verbose=1
+/sw/gcc/10.2.0/bin/gcc -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create -rdynamic CMakeFiles/cmTC_5b012.dir/CheckFunctionExists.c.o -o cmTC_5b012  -lpthread 
+gmake[1]: Leaving directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+
+
+

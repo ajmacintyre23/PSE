@@ -1,0 +1,60 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_f0d89/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_f0d89.dir/build.make CMakeFiles/cmTC_f0d89.dir/build
+gmake[1]: Entering directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f0d89.dir/src.c.o
+/sw/gcc/10.2.0/bin/gcc -DCMAKE_HAVE_LIBC_PTHREAD  -fPIC  -o CMakeFiles/cmTC_f0d89.dir/src.c.o -c /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_f0d89
+/mmfs1/sw/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f0d89.dir/link.txt --verbose=1
+/sw/gcc/10.2.0/bin/gcc -fPIC  -rdynamic CMakeFiles/cmTC_f0d89.dir/src.c.o -o cmTC_f0d89 
+CMakeFiles/cmTC_f0d89.dir/src.c.o: In function `main':
+src.c:(.text+0x2f): undefined reference to `pthread_create'
+src.c:(.text+0x3b): undefined reference to `pthread_detach'
+src.c:(.text+0x47): undefined reference to `pthread_cancel'
+src.c:(.text+0x58): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [CMakeFiles/cmTC_f0d89.dir/build.make:99: cmTC_f0d89] Error 1
+gmake[1]: Leaving directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_f0d89/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_0abae/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_0abae.dir/build.make CMakeFiles/cmTC_0abae.dir/build
+gmake[1]: Entering directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0abae.dir/CheckFunctionExists.c.o
+/sw/gcc/10.2.0/bin/gcc   -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create -o CMakeFiles/cmTC_0abae.dir/CheckFunctionExists.c.o -c /mmfs1/sw/cmake/3.20.0/share/cmake-3.20/Modules/CheckFunctionExists.c
+Linking C executable cmTC_0abae
+/mmfs1/sw/cmake/3.20.0/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0abae.dir/link.txt --verbose=1
+/sw/gcc/10.2.0/bin/gcc -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create -rdynamic CMakeFiles/cmTC_0abae.dir/CheckFunctionExists.c.o -o cmTC_0abae  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [CMakeFiles/cmTC_0abae.dir/build.make:99: cmTC_0abae] Error 1
+gmake[1]: Leaving directory '/mmfs1/gscratch/zeelab/ajmac/installations/polydisperse/hydrodynamics/PSE/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_0abae/fast] Error 2
+
+
+

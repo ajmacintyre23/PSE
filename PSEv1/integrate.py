@@ -53,11 +53,13 @@ class PSEv1(hoomd.md.integrate._integration_method):
         # Real space neighborlist cutoff based on error estimate for spectral sums
         # self.rcut = math.sqrt( - math.log( error ) ) / xi;
         # Modified to work with the largest particle in the system
-        sys_particles = hoomd.context.current.system.particles
-        max_diameter = max(sys_particles[i].diameter for i in range(len(sys_particles)))
-        self.rcut = (
-            math.sqrt(-math.log(error)) / xi + max_diameter
-        )  # 2 * a_max = max_diameter
+        pdata = hoomd.context.current.system_definition.getParticleData()
+        rcut0 = math.sqrt(-math.log(error)) / xi
+        ntypes = pdata.getNTypes()
+        type_radius = [0.0] * ntypes
+        for tag in range(pdata.getNGlobal()):
+            type_radius[pdata.getType(tag)] = pdata.getDiameter(tag) / 2.0
+        self.rcut = rcut0 + 2.0 * max(type_radius)
         # If this line is changed, remember to change in C++ code as well!!
 
         # initialize the reflected c++ class
@@ -105,6 +107,11 @@ class PSEv1(hoomd.md.integrate._integration_method):
                     "Invalid neighborlist method specified. Valid options are: cell, tree, stencil. \n"
                 )
                 raise RuntimeError("Error constructing neighborlist")
+
+            # Per-type-pair cutoff: r_cut = r_cut^0 + a_i + a_j
+            for ti in range(ntypes):
+                for tj in range(ti, ntypes):
+                    self.neighbor_list.setRCutPair(ti, tj, rcut0 + type_radius[ti] + type_radius[tj])
 
             # Set neighborlist properties
             self.neighbor_list.setEvery(1, True)
